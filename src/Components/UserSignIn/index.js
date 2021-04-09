@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import Input from "./Input";
+import Input from "../UserSignUpPage/Input";
 
-const UserSignUpForm = () => {
+const UserSignIn = () => {
   const [formData, setFormData] = useState({});
 
   const handleChange = (value, item) => {
@@ -12,7 +12,7 @@ const UserSignUpForm = () => {
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
-    fetch("/users", {
+    fetch("/users/login", {
       method: "POST",
       body: JSON.stringify(formData),
       headers: {
@@ -33,20 +33,13 @@ const UserSignUpForm = () => {
 
   return (
     <>
-      <div>USER SIGN UP FORM</div>
+      <div>USER SIGN IN</div>
       <Input
         name="username"
         placeholder="Username"
         type="text"
         handleChange={handleChange}
         value={formData.firstName}
-      />
-      <Input
-        name="email"
-        placeholder="Email"
-        type="text"
-        handleChange={handleChange}
-        value={formData.email}
       />
       <Input
         name="password"
@@ -60,4 +53,4 @@ const UserSignUpForm = () => {
   );
 };
 
-export default UserSignUpForm;
+export default UserSignIn;

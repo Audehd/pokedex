@@ -5,6 +5,7 @@ import Home from "./Home";
 
 import NavigationBar from "./NavigationBar";
 import Sidebar from "./Sidebar";
+import UserSignIn from "./UserSignIn";
 import UserSignUpPage from "./UserSignUpPage";
 
 const App = () => {
@@ -20,6 +21,9 @@ const App = () => {
           </Route>
           <Route exact path="/user/signup">
             <UserSignUpPage />
+          </Route>
+          <Route exact path="/user/signin">
+            <UserSignIn />
           </Route>
         </Switch>
       </>
