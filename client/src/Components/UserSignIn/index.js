@@ -1,10 +1,17 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 
 import Input from "../UserSignUpPage/Input";
 
+import { login } from "../../reducers/actions";
+
 const UserSignIn = () => {
   const [formData, setFormData] = useState({});
+
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleChange = (value, item) => {
     setFormData({ ...formData, [item]: value });
@@ -22,9 +29,14 @@ const UserSignIn = () => {
     })
       .then((res) => res.json())
       .then((res) => {
-        const { status, message } = res;
+        const { status, data, message } = res;
         if (status === 201) {
           console.log("CONFIRMED", message);
+          const user = data;
+          dispatch(login(user));
+          //update local storage with user email
+          localStorage.setItem("userEmail", user.email);
+          history.push("/");
         } else if (status === 500) {
           console.log("ERROR", message);
         }

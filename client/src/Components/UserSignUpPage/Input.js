@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 
-const Input = ({ name, type, placeholder, handleChange, value }) => {
+const Input = ({
+  refProp,
+  name,
+  type,
+  placeholder,
+  handleChange,
+  value,
+  required,
+}) => {
   return (
     <Wrapper>
       <label htmlFor={name}>{placeholder}</label>
       <input
+        ref={refProp}
+        required={required}
         type={type}
         name={name}
         placeholder={placeholder}

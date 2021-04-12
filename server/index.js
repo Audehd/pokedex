@@ -3,7 +3,11 @@ const morgan = require("morgan");
 
 const app = express();
 
-const { addUser, loginUser } = require("./handlers/Userhandlers");
+const {
+  getUserByEmail,
+  addUser,
+  loginUser,
+} = require("./handlers/Userhandlers");
 
 const PORT = process.env.PORT || 8000;
 
@@ -16,7 +20,7 @@ app.use("/", express.static(__dirname + "/"));
 
 // User Endpoints _____________
 
-//.get("/users/user/:id")
+app.get("/users/user/:id", getUserByEmail);
 
 app.post("/users", addUser);
 

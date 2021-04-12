@@ -10,7 +10,34 @@ const options = {
   useUnifiedTopology: true,
 };
 
-const getUser = async (req, res) => {};
+const getUserByEmail = async (req, res) => {
+  const email = req.params.id;
+
+  console.log(email);
+  try {
+    //Declare client, connect to Mongodb and find user
+    const client = await MongoClient(MONGO_URI, options);
+
+    await client.connect();
+
+    const db = client.db("users");
+
+    const result = await db.collection("usersInfo").findOne({ email });
+
+    if (result) {
+      const { _id, username, email } = result;
+      res.status(201).json({
+        status: 201,
+        data: { id: _id, username, email },
+        message: "user information",
+      });
+    } else {
+      res.status(401).json({ status: 401, message: "user does not exist" });
+    }
+  } catch (err) {
+    res.status(500).send({ status: 500, message: err.message });
+  }
+};
 
 const addUser = async (req, res) => {
   try {
@@ -20,7 +47,7 @@ const addUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     //declare the user, from req.body and the encrypted password
     const user = {
-      username: req.body.username,
+      username: req.body.username.toLowerCase(),
       email: req.body.email,
       password: hashedPassword,
     };
@@ -45,8 +72,6 @@ const loginUser = async (req, res) => {
   console.log("REQUEST", req.body);
   const username = req.body.username;
   const password = req.body.password;
-  //const user = usersInfo.find(user => user.username = req.body.username)
-  //await bcrypt.compare(req.body.password, user.password);
 
   try {
     //Declare client, connect to Mongodb and find user
@@ -62,13 +87,11 @@ const loginUser = async (req, res) => {
 
     if (passwordCheck) {
       const { _id, username, email } = result;
-      res
-        .status(201)
-        .json({
-          status: 201,
-          data: { id: _id, username, email },
-          message: "user is now logged in",
-        });
+      res.status(201).json({
+        status: 201,
+        data: { id: _id, username, email },
+        message: "user is now logged in",
+      });
     } else {
       res.status(401).json({ status: 401, message: "user password is wrong" });
     }
@@ -78,7 +101,7 @@ const loginUser = async (req, res) => {
 };
 
 module.exports = {
-  getUser,
+  getUserByEmail,
   addUser,
   loginUser,
 };
