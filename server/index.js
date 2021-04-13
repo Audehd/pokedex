@@ -9,6 +9,14 @@ const {
   loginUser,
 } = require("./handlers/Userhandlers");
 
+const {
+  getPokemonByName,
+  getPokemonsByType,
+  getPokemonSpeciesByName,
+  getPokemonList,
+  getColorslist,
+} = require("./handlers/Pokemonhandlers");
+
 const PORT = process.env.PORT || 8000;
 
 app.use(express.json());
@@ -18,7 +26,7 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 app.use("/", express.static(__dirname + "/"));
 
-// User Endpoints _____________
+// User Endpoints ___________________________
 
 app.get("/users/user/:id", getUserByEmail);
 
@@ -26,7 +34,18 @@ app.post("/users", addUser);
 
 app.post("/users/login", loginUser);
 
-//_____________________________
+// Pokemon Endpoints ________________________
+app.get("/pokemons/pokemon/:name", getPokemonByName);
+
+app.post("/pokemons/pokemon/name", getPokemonByName);
+
+app.get("/pokemons/list", getPokemonList);
+
+app.get("/colors", getColorslist);
+
+app.get("/pokemons/:type", getPokemonsByType);
+
+app.get("/pokemons/species/:name", getPokemonSpeciesByName);
 
 // handle 404s
 app.use((req, res) => res.status(404).type("txt").send("🤷‍♂️"));

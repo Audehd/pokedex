@@ -8,6 +8,7 @@ import NavigationBar from "./NavigationBar";
 import Sidebar from "./Sidebar";
 import UserSignIn from "./UserSignIn";
 import UserSignUpPage from "./UserSignUpPage";
+import PokemonInfoPage from "./PokemonInfoPage";
 
 import { login } from "../reducers/actions";
 
@@ -54,6 +55,9 @@ const App = () => {
           </Route>
           <Route exact path="/user/signin">
             <UserSignIn />
+          </Route>
+          <Route exact path="/pokemon">
+            <PokemonInfoPage />
           </Route>
         </Switch>
       </>

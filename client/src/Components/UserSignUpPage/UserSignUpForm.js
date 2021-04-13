@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 
 import Input from "./Input";
-import Button from "./Button";
+import Button from "../Button";
 
 const initialState = {
   username: "",
