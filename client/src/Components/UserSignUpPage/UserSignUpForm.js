@@ -104,8 +104,7 @@ const UserSignUpForm = () => {
   };
 
   return (
-    <>
-      <div>USER SIGN UP FORM</div>
+    <Wrapper>
       <form>
         <Input
           refProp={username}
@@ -146,11 +145,19 @@ const UserSignUpForm = () => {
         <Button handleClick={handleSubmit} disabled={disabled} text="submit" />
       </form>
       <Error ref={errorBox} id="error" name="error"></Error>
-    </>
+    </Wrapper>
   );
 };
 
 export default UserSignUpForm;
+
+const Wrapper = styled.div`
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  margin: 0 auto;
+  width: 30%;
+`;
 
 const Error = styled.div`
   display: none;
