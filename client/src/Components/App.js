@@ -56,7 +56,7 @@ const App = () => {
           <Route exact path="/user/signin">
             <UserSignIn />
           </Route>
-          <Route exact path="/pokemon">
+          <Route exact path="/pokemon/:pokedexNumber">
             <PokemonInfoPage />
           </Route>
         </Switch>

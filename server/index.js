@@ -14,7 +14,8 @@ const {
   getPokemonsByType,
   getPokemonSpeciesByName,
   getPokemonList,
-  getColorslist,
+  getColorsList,
+  getTypesList,
 } = require("./handlers/Pokemonhandlers");
 
 const PORT = process.env.PORT || 8000;
@@ -35,17 +36,25 @@ app.post("/users", addUser);
 app.post("/users/login", loginUser);
 
 // Pokemon Endpoints ________________________
+
+//get one Pokemon by name
 app.get("/pokemons/pokemon/:name", getPokemonByName);
 
+//get several Pokemons by name, the endpoint accepts an array of pokemon names or Ids
 app.post("/pokemons/pokemon/name", getPokemonByName);
 
+//get a Pokemon list, this returns an array of pokemon names
 app.get("/pokemons/list", getPokemonList);
 
-app.get("/colors", getColorslist);
-
-app.get("/pokemons/:type", getPokemonsByType);
-
+//get Pokemon by species, to get aditional information about a specific pokemon
 app.get("/pokemons/species/:name", getPokemonSpeciesByName);
+
+//
+app.get("/colors", getColorsList);
+
+app.get("/types", getTypesList);
+
+app.get("/types/:type", getPokemonsByType);
 
 // handle 404s
 app.use((req, res) => res.status(404).type("txt").send("🤷‍♂️"));

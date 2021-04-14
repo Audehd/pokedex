@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
+
+import PokemonType from "./PokemonType";
 
 const PokemonCard = ({ name, pokedexNumber, imgSrc, types }) => {
   //state for aditional Pokemon information about the pokemeon
@@ -84,11 +87,17 @@ const PokemonCard = ({ name, pokedexNumber, imgSrc, types }) => {
     }
   };
 
+  //this function redirects to the pokemon details page when the pokemon card is clicked
+  // const viewPokemonDetails = () => {
+  //   history.push(`/pokemon/${pokedexNumber}`);
+  // };
+
   if (pokemonInfo) {
     return (
       <Wrapper
+        to={`/pokemon/${pokedexNumber}`}
+        //onClick={viewPokemonDetails}
         bgColor={setBackgroundColor(pokemonInfo.color.name)}
-        // style={{ background: setBackgroundColor() }}
       >
         <ImageWrapper bgColor={setBackgroundColor(pokemonInfo.color.name)}>
           <Image src={imgSrc} alt={`${name}`} />
@@ -96,7 +105,7 @@ const PokemonCard = ({ name, pokedexNumber, imgSrc, types }) => {
         <Title>{name}</Title>
         <Number># {pokedexNumber}</Number>
         {types.map((type) => {
-          return <Type>{type.type.name}</Type>;
+          return <PokemonType type={type.type.name} />;
         })}
       </Wrapper>
     );
@@ -107,7 +116,9 @@ const PokemonCard = ({ name, pokedexNumber, imgSrc, types }) => {
 
 export default PokemonCard;
 
-const Wrapper = styled.div`
+const Wrapper = styled(Link)`
+  text-decoration: none;
+  color: black;
   padding: 16px;
   //Set the background color using props, from the setBackgroundColor function
   background: ${({ bgColor }) => bgColor.backgroundColor};
@@ -117,6 +128,14 @@ const Wrapper = styled.div`
     3px 41.8px 33.4px rgba(0, 0, 0, 0.028), 3px 100px 80px rgba(0, 0, 0, 0.02);
   border-radius: 16px;
   text-align: center;
+
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
+    text-decoration: none;
+  }
 `;
 
 const ImageWrapper = styled.div`
@@ -146,20 +165,6 @@ const Number = styled.h2`
   margin-top: 4px;
   font-size: 16px;
   font-weight: 600;
-`;
-
-const Type = styled.div`
-  display: inline-block;
-  background-color: #744fff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 7px 10px;
-  margin: 0 7px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 12px;
-  width: 40%;
 `;
 
 {

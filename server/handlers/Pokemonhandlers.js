@@ -25,11 +25,19 @@ const getPokemonColorByName = (req, res) => {
     });
 };
 
-const getColorslist = (req, res) => {
-  P.getPokemonColorsList().then(function (response) {
+const getColorsList = (req, res) => {
+  P.getPokemonColorsList().then((response) => {
     res
       .status(201)
-      .json({ status: 201, data: response, message: "Colors list" });
+      .json({ status: 201, data: response, message: "Pokemon colors list" });
+  });
+};
+
+const getTypesList = (req, res) => {
+  P.getTypesList().then((response) => {
+    res
+      .status(201)
+      .json({ status: 201, data: response, message: "Pokemon types list" });
   });
 };
 
@@ -49,8 +57,8 @@ const getPokemonSpeciesByName = (req, res) => {
 
 const getPokemonList = (req, res) => {
   var interval = {
-    limit: 50,
-    offset: 0,
+    limit: 100,
+    offset: 100,
   };
   P.getPokemonsList(interval).then((response) => {
     res
@@ -64,5 +72,6 @@ module.exports = {
   getPokemonsByType,
   getPokemonSpeciesByName,
   getPokemonList,
-  getColorslist,
+  getColorsList,
+  getTypesList,
 };

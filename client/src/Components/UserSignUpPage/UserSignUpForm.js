@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 import Input from "./Input";
@@ -15,6 +16,8 @@ const UserSignUpForm = () => {
   const [formData, setFormData] = useState(initialState);
   //Set the form submit button to disabled by default unless all required fields are filled out
   const [disabled, setDisabled] = useState(true);
+
+  const history = useHistory();
 
   useEffect(() => {
     // This useEffect is listening to state changes and verifying if all the required fields are filled out
@@ -96,6 +99,9 @@ const UserSignUpForm = () => {
           const { status, message } = res;
           if (status === 201) {
             console.log("CONFIRMED", message);
+            //log in the new user
+            //localStorage.setItem("userEmail", formData.email);
+            history.push("/");
           } else if (status === 500) {
             console.log("ERROR", message);
           }
