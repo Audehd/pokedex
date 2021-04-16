@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const PokemonType = ({ type }) => {
+const PokemonType = ({ type, size }) => {
   //This functions takes the type as parameter and determines the background and text colors
   const setColors = (type) => {
     if (type) {
@@ -113,12 +113,11 @@ const PokemonType = ({ type }) => {
       }
     }
   };
-
-  return (
-    <>
-      <Type color={setColors(type)}>{type}</Type>
-    </>
-  );
+  if (size === "large") {
+    return <LargeType color={setColors(type)}>{type}</LargeType>;
+  } else {
+    return <Type color={setColors(type)}>{type}</Type>;
+  }
 };
 
 export default PokemonType;
@@ -126,7 +125,6 @@ export default PokemonType;
 const Type = styled.div`
   display: inline-block;
   background: ${({ color }) => color.backgroundColor};
-  //background-color: #744fff;
   color: ${({ color }) => color.textColor};
   border: none;
   border-radius: 5px;
@@ -136,4 +134,12 @@ const Type = styled.div`
   text-decoration: none;
   font-size: 12px;
   width: 40%;
+`;
+
+const LargeType = styled(Type)`
+  font-size: 20px;
+  width: 25%;
+  min-width: 100px;
+  margin-top: 10px;
+  margin-bottom: 5px;
 `;
