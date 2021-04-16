@@ -5,7 +5,7 @@ import styled from "styled-components";
 import PokemonType from "../PokemonCard/PokemonType";
 import EvolutionCard from "./EvolutionCard";
 
-import setBackgroundColor from "../../UtilityFunctions";
+import { setBackgroundColor } from "../../UtilityFunctions";
 
 const PokemonInfoPage = () => {
   //State for the pokemon
@@ -58,7 +58,6 @@ const PokemonInfoPage = () => {
           const pokemonWeaknessArray = [];
           weaknesses.map((weakness) => {
             weakness.map((type) => {
-              console.log("type name", type.name);
               //Set the weaknesses of the pokemon
               pokemonWeaknessArray.push(type.name);
               //setPokemonWeakness([...pokemonWeakness, type.name]);
@@ -74,11 +73,11 @@ const PokemonInfoPage = () => {
 
   useEffect(() => {
     fetchPokemonInfo();
-  }, []);
+  }, [pokedexNumber]);
 
   useEffect(() => {
     getPokemonTypesInfo();
-  }, [pokemon]);
+  }, [pokemon, pokedexNumber]);
 
   if (pokemon && pokemonInfo && pokemonWeakness) {
     return (

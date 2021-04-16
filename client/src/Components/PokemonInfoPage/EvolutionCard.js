@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import setBackgroundColor from "../../UtilityFunctions";
+import { setBackgroundColor } from "../../UtilityFunctions";
 
 const EvolutionCard = ({ evolutionChainLink, color }) => {
-  const [evolutionChain, setEvolutionChain] = useState();
   //States for the names of pokemons at each stage of evolution
   const [firstStage, setFirstStage] = useState(null);
   const [secondStage, setSecondStage] = useState(null);
@@ -12,29 +11,26 @@ const EvolutionCard = ({ evolutionChainLink, color }) => {
 
   const [pokemonSearchResult, setPokemonSearchResult] = useState();
 
-  const id = evolutionChainLink.slice(42, -1);
-
   //function to get evolution chain information
   const fetchEvolutionChainById = () => {
+    const id = evolutionChainLink.slice(42, -1);
     fetch(`/evolutionchain/${id}`)
       .then((res) => res.json())
       .then((res) => {
         //this contains first stage evolution, returns a string
         const first = res.data.chain.species.name;
-        console.log("FIRST STAGE", first);
+        //console.log("FIRST STAGE", first);
         setFirstStage(first);
         //this contains second stage evolution, returns an array of strings (pokemon names)
         const second = res.data.chain.evolves_to.map(
           (each) => each.species.name
         );
-        console.log("SECOND STAGE", second);
+        //console.log("SECOND STAGE", second);
         setSecondStage(second);
         //this contains third stage evolution, returns a string
         const third = res.data.chain.evolves_to[0]?.evolves_to[0]?.species.name;
-        console.log("THIRD STAGE", third);
+        //console.log("THIRD STAGE", third);
         setThirdStage(third);
-
-        setEvolutionChain(res.data.chain);
       });
   };
 
@@ -71,7 +67,7 @@ const EvolutionCard = ({ evolutionChainLink, color }) => {
 
   useEffect(() => {
     fetchEvolutionChainById();
-  }, []);
+  }, [evolutionChainLink]);
 
   useEffect(() => {
     //getPokemonByName(firstStage);
@@ -85,12 +81,12 @@ const EvolutionCard = ({ evolutionChainLink, color }) => {
         <p>{firstStage}</p>
         {pokemonSearchResult.map((pokemon) => {
           return (
-            <>
+            <div key={pokemon.species.name}>
               <Image
                 src={pokemon.sprites.other["official-artwork"].front_default}
               />
               <p>{pokemon.species.name}</p>
-            </>
+            </div>
           );
         })}
       </Wrapper>

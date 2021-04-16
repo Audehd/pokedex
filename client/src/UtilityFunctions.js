@@ -61,4 +61,29 @@ export const setBackgroundColor = (color) => {
   }
 };
 
-export default setBackgroundColor;
+export const getRandomPokemons = (callback) => {
+  const randomPokemonIds = Array.from({ length: 20 }, () =>
+    Math.ceil(Math.random() * 893)
+  );
+  callback(randomPokemonIds);
+};
+
+//Fetch several Pokemons by name or pokedex number
+//the endpoint accepts an array of pokemon names or Ids (pokedex number)
+export const getPokemonsByName = (pokemonList, callback) => {
+  fetch("/pokemons/pokemon/name", {
+    method: "POST",
+    body: JSON.stringify(pokemonList),
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      callback(res.data);
+    })
+    .catch((error) => {
+      console.log("Error", error);
+    });
+};
