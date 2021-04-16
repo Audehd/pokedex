@@ -32,7 +32,7 @@ const Home = () => {
   let pokemonName = "Sylveon";
   //Fetch one Pokemon by name, this needs to be done that if there is one result, it can be set into an array
   //that way we can still map over the result and display the pokemon card.
-  const getPokemonByName = (pokemonList) => {
+  const getPokemonByName = () => {
     fetch(`/pokemons/pokemon/${pokemonName}`)
       .then((res) => res.json())
       .then((res) => {

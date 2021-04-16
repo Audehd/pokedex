@@ -14,6 +14,19 @@ const getPokemonByName = (req, res) => {
     });
 };
 
+const getPokemonByPokedexNumber = (req, res) => {
+  console.log("POKEMON BY NUMBER", req.params);
+  P.getPokemonByName(req.params.pokedexNumber)
+    .then((response) => {
+      res
+        .status(201)
+        .json({ status: 201, data: response, message: "Pokemon data" });
+    })
+    .catch((error) => {
+      res.status(500).send({ status: 500, message: error.message });
+    });
+};
+
 const getPokemonColorByName = (req, res) => {
   //Use getPokemonColorByName to return data about specific pokemon color.
   P.getPokemonColorByName("black")
@@ -39,6 +52,18 @@ const getTypesList = (req, res) => {
       .status(201)
       .json({ status: 201, data: response, message: "Pokemon types list" });
   });
+};
+
+const getTypeByName = (req, res) => {
+  P.getTypeByName(req.body)
+    .then((response) => {
+      res
+        .status(201)
+        .json({ status: 201, data: response, message: "Pokemon type data" });
+    })
+    .catch((error) => {
+      res.status(500).send({ status: 500, message: error.message });
+    });
 };
 
 const getPokemonsByType = (req, res) => {};
@@ -67,11 +92,30 @@ const getPokemonList = (req, res) => {
   });
 };
 
+const getEvolutionChainById = (req, res) => {
+  P.getEvolutionChainById(req.params.id)
+    .then((response) => {
+      res
+        .status(201)
+        .json({
+          status: 201,
+          data: response,
+          message: "Pokemon evolution chain data",
+        });
+    })
+    .catch((error) => {
+      res.status(500).send({ status: 500, message: error.message });
+    });
+};
+
 module.exports = {
   getPokemonByName,
+  getPokemonByPokedexNumber,
   getPokemonsByType,
   getPokemonSpeciesByName,
   getPokemonList,
   getColorsList,
   getTypesList,
+  getTypeByName,
+  getEvolutionChainById,
 };
