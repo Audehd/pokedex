@@ -7,7 +7,7 @@ import Button from "../Button";
 
 import { getRandomPokemons, getPokemonsByName } from "../../UtilityFunctions";
 
-const Sidebar = ({ setPokemonSearchResult }) => {
+const Sidebar = ({ pokemonSearchResult, setPokemonSearchResult }) => {
   //State for search keyword
   const [keyword, setKeyword] = useState();
   //State for pokedex entries for specific region
@@ -68,6 +68,8 @@ const Sidebar = ({ setPokemonSearchResult }) => {
     history.push(`/pokemon/${keyword}`);
   };
 
+  //Function to generate an array of numbers (national dex numbers)
+  //then pass that array in the get pokemons by name function
   const handleRandom = (ev) => {
     ev.preventDefault();
     getRandomPokemons(getPokemonsByName);
@@ -75,8 +77,9 @@ const Sidebar = ({ setPokemonSearchResult }) => {
 
   const handleRegionSelect = (ev) => {
     const selected = ev.target.value;
-    const range = regions[selected];
-    console.log("RANGE", range);
+    const regionalPokedex = regions[selected];
+    console.log("RANGE", regionalPokedex);
+    //getPokemonsByName(regionalPokedex);
   };
 
   return (
@@ -122,7 +125,8 @@ export default Sidebar;
 
 const Wrapper = styled.div`
   width: 400px;
-  height: 100vh;
+  height: 100%;
+  min-height: 100vh;
   background-color: #ff6961;
   border-right: 12px solid rgba(0, 0, 0, 0.1);
   display: flex;

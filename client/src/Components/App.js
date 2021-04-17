@@ -71,7 +71,10 @@ const App = () => {
           <NavigationBar />
         </HeaderWrapper>
         <SidebarWrapper>
-          <Sidebar setPokemonSearchResult={setPokemonSearchResult} />
+          <Sidebar
+            pokemonSearchResult={pokemonSearchResult}
+            setPokemonSearchResult={setPokemonSearchResult}
+          />
         </SidebarWrapper>
         <MainWrapper>
           <Switch>
