@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import styled from "styled-components";
 
 import GlobalStyles from "../GlobalStyles";
 import Home from "./Home";
@@ -13,6 +14,28 @@ import PokemonInfoPage from "./PokemonInfoPage";
 import { login } from "../reducers/actions";
 
 const App = () => {
+  //State for the pokemon search results, passed down to Sidebar and Home as props.
+  const [pokemonSearchResult, setPokemonSearchResult] = useState([]);
+
+  //Fetch several Pokemons by name, the endpoint accepts an array of pokemon names or Ids
+  const getPokemonsByName = (pokemonList) => {
+    fetch("/pokemons/pokemon/name", {
+      method: "POST",
+      body: JSON.stringify(pokemonList),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setPokemonSearchResult(res.data);
+      })
+      .catch((error) => {
+        console.log("Error", error);
+      });
+  };
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -42,27 +65,61 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <GlobalStyles />
-      <>
-        <NavigationBar />
-        <Sidebar />
-        <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route exact path="/user/signup">
-            <UserSignUpPage />
-          </Route>
-          <Route exact path="/user/signin">
-            <UserSignIn />
-          </Route>
-          <Route exact path="/pokemon/:pokedexNumber">
-            <PokemonInfoPage />
-          </Route>
-        </Switch>
-      </>
+      <Wrapper>
+        <GlobalStyles />
+        <HeaderWrapper>
+          <NavigationBar />
+        </HeaderWrapper>
+        <SidebarWrapper>
+          <Sidebar
+            pokemonSearchResult={pokemonSearchResult}
+            setPokemonSearchResult={setPokemonSearchResult}
+          />
+        </SidebarWrapper>
+        <MainWrapper>
+          <Switch>
+            <Route exact path="/">
+              <Home
+                pokemonSearchResult={pokemonSearchResult}
+                setPokemonSearchResult={setPokemonSearchResult}
+              />
+            </Route>
+            <Route exact path="/user/signup">
+              <UserSignUpPage />
+            </Route>
+            <Route exact path="/user/signin">
+              <UserSignIn />
+            </Route>
+            <Route exact path="/pokemon/:pokedexNumber">
+              <PokemonInfoPage />
+            </Route>
+          </Switch>
+        </MainWrapper>
+      </Wrapper>
     </BrowserRouter>
   );
 };
 
 export default App;
+
+const Wrapper = styled.div`
+  position: relative;
+  display: grid;
+  grid-template-areas:
+    "sidebar header header header"
+    "sidebar main main main";
+`;
+
+const HeaderWrapper = styled.header`
+  grid-area: header;
+  border-bottom: 3px dashed #ff406e;
+`;
+
+const SidebarWrapper = styled.div`
+  grid-area: sidebar;
+  border-right: 3px dashed #ff406e;
+`;
+
+const MainWrapper = styled.main`
+  grid-area: main;
+`;

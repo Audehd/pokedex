@@ -81,10 +81,17 @@ const getPokemonSpeciesByName = (req, res) => {
 };
 
 const getPokemonList = (req, res) => {
-  var interval = {
-    limit: 100,
-    offset: 100,
+  const getRandomInt = (min, max) => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min);
   };
+
+  var interval = {
+    limit: 20,
+    offset: getRandomInt(1, 893),
+  };
+
   P.getPokemonsList(interval).then((response) => {
     res
       .status(201)
@@ -95,17 +102,52 @@ const getPokemonList = (req, res) => {
 const getEvolutionChainById = (req, res) => {
   P.getEvolutionChainById(req.params.id)
     .then((response) => {
-      res
-        .status(201)
-        .json({
-          status: 201,
-          data: response,
-          message: "Pokemon evolution chain data",
-        });
+      res.status(201).json({
+        status: 201,
+        data: response,
+        message: "Pokemon evolution chain data",
+      });
     })
     .catch((error) => {
       res.status(500).send({ status: 500, message: error.message });
     });
+};
+
+const getRegionByName = (req, res) => {
+  P.getRegionByName(req.params.name)
+    .then((response) => {
+      res.status(201).json({
+        status: 201,
+        data: response,
+        message: "Pokemon location (region) data",
+      });
+    })
+    .catch((error) => {
+      res.status(500).send({ status: 500, message: error.message });
+    });
+};
+
+const getPokedexByName = (req, res) => {
+  console.log(123, req.params.name);
+  P.getPokedexByName(req.params.name)
+    .then((response) => {
+      res.status(201).json({
+        status: 201,
+        data: response,
+        message: "Pokedex data",
+      });
+    })
+    .catch((error) => {
+      res.status(500).send({ status: 500, message: error.message });
+    });
+};
+
+const getPokedexList = (req, res) => {
+  P.getPokedexsList().then((response) => {
+    res
+      .status(201)
+      .json({ status: 201, data: response, message: "Pokedex list" });
+  });
 };
 
 module.exports = {
@@ -118,4 +160,7 @@ module.exports = {
   getTypesList,
   getTypeByName,
   getEvolutionChainById,
+  getRegionByName,
+  getPokedexByName,
+  getPokedexList,
 };

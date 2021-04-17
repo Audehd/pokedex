@@ -19,6 +19,9 @@ const {
   getTypesList,
   getTypeByName,
   getEvolutionChainById,
+  getRegionByName,
+  getPokedexByName,
+  getPokedexList,
 } = require("./handlers/Pokemonhandlers");
 
 const PORT = process.env.PORT || 8000;
@@ -69,7 +72,14 @@ app.get("/types/:type", getPokemonsByType);
 //get info about the evolution chain of a pokemon by pokemon id
 app.get("/evolutionchain/:id", getEvolutionChainById);
 
-app.get("");
+//get info about a region in the games
+app.get("/locations/region/:name", getRegionByName);
+
+//get a list of all the pokedexes
+app.get("/pokedex", getPokedexList);
+
+//get info about a specific pokedex
+app.get("/pokedex/:name", getPokedexByName);
 
 // handle 404s
 app.use((req, res) => res.status(404).type("txt").send("🤷‍♂️"));

@@ -5,7 +5,7 @@ import styled from "styled-components";
 import PokemonType from "./PokemonType";
 
 //This functions takes the pokemon main color as parameter and determines the background color and secondary color for the pokemon card
-import setBackgroundColor from "../../UtilityFunctions";
+import { setBackgroundColor } from "../../UtilityFunctions";
 
 const PokemonCard = ({ name, pokedexNumber, imgSrc, types }) => {
   //state for aditional Pokemon information about the pokemeon
