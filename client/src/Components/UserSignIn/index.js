@@ -1,22 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
 import Input from "../UserSignUpPage/Input";
+import Button from "../Button";
 
 import { login } from "../../reducers/actions";
 
 const UserSignIn = () => {
+  //State for the form data
   const [formData, setFormData] = useState({});
+
+  //Error box that displays a message if there is a mistake in the form
+  const errorBox = useRef(null);
 
   const dispatch = useDispatch();
   const history = useHistory();
 
+  //function to update form data state when user types something in the fileds
   const handleChange = (value, item) => {
     setFormData({ ...formData, [item]: value });
   };
 
+  //Funtion to log the user in
   const handleSubmit = (ev) => {
     ev.preventDefault();
     fetch("/users/login", {
@@ -44,8 +51,7 @@ const UserSignIn = () => {
   };
 
   return (
-    <>
-      <div>USER SIGN IN</div>
+    <Wrapper>
       <Input
         name="username"
         placeholder="Username"
@@ -60,9 +66,47 @@ const UserSignIn = () => {
         handleChange={handleChange}
         value={formData.password}
       />
-      <button onClick={handleSubmit}>Submit</button>
-    </>
+      <ButtonWrapper>
+        <Button text="Submit" handleClick={handleSubmit}>
+          Submit
+        </Button>
+      </ButtonWrapper>
+      <Error ref={errorBox} id="error" name="error"></Error>
+    </Wrapper>
   );
 };
 
 export default UserSignIn;
+
+const Wrapper = styled.div`
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  margin: 0 auto;
+  width: 30%;
+  background-color: #ff6961;
+  border: 8px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 60px;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 15px 0 0 0;
+`;
+
+const Error = styled.div`
+  display: none;
+  font-weight: 500;
+  font-size: 20px;
+  color: black;
+  text-align: center;
+  background-color: pink;
+  padding-bottom: 10px 20px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  height: 70px;
+  width: 100%;
+  margin: 30px 0;
+`;
