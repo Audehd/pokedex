@@ -84,10 +84,10 @@ const App = () => {
                 setPokemonSearchResult={setPokemonSearchResult}
               />
             </Route>
-            <Route exact path="/user/signup">
+            <Route exact path="/signup">
               <UserSignUpPage />
             </Route>
-            <Route exact path="/user/signin">
+            <Route exact path="/signin">
               <UserSignIn />
             </Route>
             <Route exact path="/pokemon/:pokedexNumber">
@@ -112,12 +112,12 @@ const Wrapper = styled.div`
 
 const HeaderWrapper = styled.header`
   grid-area: header;
-  border-bottom: 3px dashed #ff406e;
+  //border-bottom: 3px dashed #ff406e;
 `;
 
 const SidebarWrapper = styled.div`
   grid-area: sidebar;
-  border-right: 3px dashed #ff406e;
+  //border-right: 3px dashed #ff406e;
 `;
 
 const MainWrapper = styled.main`

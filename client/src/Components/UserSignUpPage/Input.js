@@ -32,7 +32,8 @@ const Wrapper = styled.div`
   position: relative;
 
   label {
-    display: none;
+    font-size: 21px;
+    padding-bottom: 5px;
   }
 
   input {
@@ -45,6 +46,7 @@ const Wrapper = styled.div`
     height: 44px;
     padding: 8px 12px 10px 12px;
     width: 100%;
+    margin-top: 5px;
 
     &::placeholder {
       color: #999;
