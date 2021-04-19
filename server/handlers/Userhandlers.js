@@ -37,6 +37,7 @@ const getUserByEmail = async (req, res) => {
   } catch (err) {
     res.status(500).send({ status: 500, message: err.message });
   }
+  client.close();
 };
 
 const addUser = async (req, res) => {
@@ -97,6 +98,7 @@ const loginUser = async (req, res) => {
   } catch (err) {
     res.status(500).send({ status: 500, message: err.message });
   }
+  client.close();
 };
 
 module.exports = {

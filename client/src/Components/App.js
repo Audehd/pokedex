@@ -12,6 +12,7 @@ import UserSignUpPage from "./UserSignUpPage";
 import PokemonInfoPage from "./PokemonInfoPage";
 
 import { login } from "../reducers/actions";
+import PokemonTeamPage from "./PokemonTeamPage";
 
 const App = () => {
   //State for the pokemon search results, passed down to Sidebar and Home as props.
@@ -92,6 +93,9 @@ const App = () => {
             </Route>
             <Route exact path="/pokemon/:pokedexNumber">
               <PokemonInfoPage />
+            </Route>
+            <Route exact path="/myteams">
+              <PokemonTeamPage />
             </Route>
           </Switch>
         </MainWrapper>

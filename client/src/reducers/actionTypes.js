@@ -1,5 +1,10 @@
 export const Types = {
   LOGIN: "LOGIN",
   UPDATE_USER: "UPDATE_USER",
-  //UPDATE_PROFILE_PICTURE: "UPDATE_PROFILE_PICTURE",
+};
+
+export const TeamTypes = {
+  ADD_TEAM: "ADD_TEAM",
+  UPDATE_TEAM: "UPDATE_TEAM",
+  DELETE_TEAM: "DELETE_TEAM",
 };

@@ -3,6 +3,7 @@ var Pokedex = require("pokedex-promise-v2");
 var P = new Pokedex();
 
 const getPokemonByName = (req, res) => {
+  console.log(req.body);
   P.getPokemonByName(req.body)
     .then((response) => {
       res
@@ -15,7 +16,6 @@ const getPokemonByName = (req, res) => {
 };
 
 const getPokemonByPokedexNumber = (req, res) => {
-  console.log("POKEMON BY NUMBER", req.params);
   P.getPokemonByName(req.params.pokedexNumber)
     .then((response) => {
       res
@@ -150,6 +150,14 @@ const getPokedexList = (req, res) => {
   });
 };
 
+const getNaturesList = (req, res) => {
+  P.getNaturesList().then((response) => {
+    res
+      .status(201)
+      .json({ status: 201, data: response, message: "Natures list" });
+  });
+};
+
 module.exports = {
   getPokemonByName,
   getPokemonByPokedexNumber,
@@ -163,4 +171,5 @@ module.exports = {
   getRegionByName,
   getPokedexByName,
   getPokedexList,
+  getNaturesList,
 };

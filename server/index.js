@@ -9,6 +9,8 @@ const {
   loginUser,
 } = require("./handlers/Userhandlers");
 
+const { getTeamsByUsername, addTeam } = require("./handlers/TeamsHandlers");
+
 const {
   getPokemonByName,
   getPokemonByPokedexNumber,
@@ -22,6 +24,7 @@ const {
   getRegionByName,
   getPokedexByName,
   getPokedexList,
+  getNaturesList,
 } = require("./handlers/Pokemonhandlers");
 
 const PORT = process.env.PORT || 8000;
@@ -40,6 +43,14 @@ app.get("/users/user/:id", getUserByEmail);
 app.post("/users", addUser);
 
 app.post("/users/login", loginUser);
+
+// Teams Endpoints ________________________
+
+app.get("/teams/user/:username", getTeamsByUsername);
+
+//add a new team, this endpoint needs the username and team info
+//and adds the team to a collection specific to the user
+app.post("/teams/addteam", addTeam);
 
 // Pokemon Endpoints ________________________
 
@@ -80,6 +91,11 @@ app.get("/pokedex", getPokedexList);
 
 //get info about a specific pokedex
 app.get("/pokedex/:name", getPokedexByName);
+
+//get natures list
+app.get("/natures", getNaturesList);
+
+//_____________________________________________________________________
 
 // handle 404s
 app.use((req, res) => res.status(404).type("txt").send("🤷‍♂️"));

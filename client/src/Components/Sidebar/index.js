@@ -5,7 +5,7 @@ import styled from "styled-components";
 import SearchInput from "./searchInput";
 import Button from "../Button";
 
-import { getRandomPokemons, getPokemonsByName } from "../../UtilityFunctions";
+import { getRandomPokemons } from "../../UtilityFunctions";
 
 const Sidebar = ({ pokemonSearchResult, setPokemonSearchResult }) => {
   //State for search keyword
@@ -13,6 +13,7 @@ const Sidebar = ({ pokemonSearchResult, setPokemonSearchResult }) => {
   //State for pokedex entries for specific region
   //const [regionList, setRegionList] = useState();
 
+  //list of Pokemon regions
   const regions = {
     Kanto: { start: 0, end: 151 },
     Johto: { start: 152, end: 251 },
@@ -75,6 +76,7 @@ const Sidebar = ({ pokemonSearchResult, setPokemonSearchResult }) => {
     getRandomPokemons(getPokemonsByName);
   };
 
+  //when user selects a region from the dropdown menu, return a list of pokemon from that region
   const handleRegionSelect = (ev) => {
     const selected = ev.target.value;
     const regionalPokedex = regions[selected];
@@ -144,6 +146,7 @@ const SearchLabel = styled.p`
 
 const ButtonWrapper = styled.div`
   margin: 15px 0;
+  width: 80%;
 `;
 
 const Form = styled.form``;

@@ -15,13 +15,38 @@ const NavigationBar = () => {
     history.push("/signin");
   };
 
-  return (
-    <Wrapper>
-      <ButtonWrapper>
-        <Button handleClick={pushToLogIn} text="log in" />
-      </ButtonWrapper>
-    </Wrapper>
-  );
+  const pushToTeamsPage = () => {
+    history.push("/myteams");
+  };
+
+  const pushToProfilePage = () => {
+    history.push("/profile");
+  };
+
+  console.log("USER STATE", CurrentUserstate);
+
+  if (CurrentUserstate) {
+    return (
+      <Wrapper>
+        <ButtonsWrapper>
+          <ButtonWrapper>
+            <Button handleClick={pushToTeamsPage} text="My Pokémon teams" />
+          </ButtonWrapper>
+          <ButtonWrapper>
+            <Button handleClick={pushToProfilePage} text="Profile" />
+          </ButtonWrapper>
+        </ButtonsWrapper>
+      </Wrapper>
+    );
+  } else {
+    return (
+      <Wrapper>
+        <ButtonWrapper>
+          <Button handleClick={pushToLogIn} text="log in" />
+        </ButtonWrapper>
+      </Wrapper>
+    );
+  }
 };
 
 export default NavigationBar;
@@ -32,9 +57,15 @@ const Wrapper = styled.div`
   height: 150px;
 `;
 
+const ButtonsWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
 const ButtonWrapper = styled.div`
   width: 15%;
+  //border: 2px solid black;
   margin-left: auto;
-  margin-right: 0;
+  margin-right: 20px;
   padding-top: 38px;
 `;

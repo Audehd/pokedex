@@ -14,7 +14,7 @@ export default Button;
 const LargeButton = styled.button`
   position: relative;
   display: block;
-  width: 80%;
+  width: 100%;
   border: 4px solid #ffe662;
   border-radius: 12px;
   background: #fdfd96;

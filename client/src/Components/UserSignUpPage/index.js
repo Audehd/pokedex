@@ -191,7 +191,7 @@ const Error = styled.div`
   padding-bottom: 10px 20px;
   border: 4px solid rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  height: 70px;
+  max-height: 90px;
   width: 100%;
   margin: 30px 0;
 `;

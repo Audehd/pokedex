@@ -98,7 +98,7 @@ const Title = styled.h2`
   font-weight: 600;
 `;
 
-const Number = styled.h2`
+const Number = styled.h3`
   margin: 0;
   margin-bottom: 10px;
   margin-top: 4px;
