@@ -5,6 +5,8 @@ export const Types = {
 
 export const TeamTypes = {
   ADD_TEAM: "ADD_TEAM",
+  EDIT_TEAM_NAME: "EDIT_TEAM_NAME",
   UPDATE_TEAM: "UPDATE_TEAM",
   DELETE_TEAM: "DELETE_TEAM",
+  ADD_POKEMON_TO_TEAM: "ADD_POKEMON_TO_TEAM",
 };

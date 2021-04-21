@@ -1,4 +1,4 @@
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 const assert = require("assert");
 
 require("dotenv").config();
@@ -14,14 +14,16 @@ const getTeamsByUsername = async (req, res) => {
 
   console.log(username);
   try {
-    //Declare client, connect to Mongodb and find teams
     const client = await MongoClient(MONGO_URI, options);
 
     await client.connect();
 
     const db = client.db("teams");
 
-    const result = await db.collection(username).find().toArray();
+    const query = { "user.username": username };
+
+    //const result = await db.collection(username).find().toArray();
+    const result = await db.collection("teamsInfo").find(query).toArray();
 
     if (result) {
       res.status(201).json({
@@ -38,45 +40,26 @@ const getTeamsByUsername = async (req, res) => {
   } catch (err) {
     res.status(500).send({ status: 500, message: err.message });
   }
-  client.close();
 };
 
 const addTeam = async (req, res) => {
-  //console.log("ADD TEAM", req.body);
+  console.log("ADD TEAM", req.body);
   try {
-    const teamOwner = req.body.username.toLowerCase();
+    const team = req.body;
 
-    const teamName = req.body.teamName;
-
-    const teamInfo = req.body.team.map((pokemon) => {
-      return {
-        pokemonName: pokemon.pokemonName,
-        pokedexNumber: pokemon.pokedexNumber,
-        nickname: pokemon.nickname,
-        nature: pokemon.nature,
-        helditem: pokemon.helditem,
-      };
-    });
-
-    team = { user: teamOwner, teamName, team: teamInfo };
-
-    console.log("object to send", team);
-
-    //Declare client, connect to Mongodb and add team
     const client = await MongoClient(MONGO_URI, options);
 
     await client.connect();
 
     const db = client.db("teams");
 
-    const result = await db.collection(teamOwner).insertOne(team);
+    const result = await db.collection("teamsInfo").insertOne(team);
     assert.strictEqual(1, result.insertedCount);
 
     res.status(201).json({ status: 201, message: "succesfully added team" });
   } catch (err) {
     res.status(500).send({ status: 500, message: err.message });
   }
-  client.close();
 };
 
 module.exports = {

@@ -37,8 +37,8 @@ const Wrapper = styled.div`
   }
 
   input {
-    border-radius: 3px;
-    border: 1px solid black;
+    border-radius: 12px;
+    border: 2px solid black;
     box-sizing: border-box;
     color: #464a5c;
     font-size: 16px;

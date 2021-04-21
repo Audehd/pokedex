@@ -17,6 +17,8 @@ import PokemonTeamPage from "./PokemonTeamPage";
 const App = () => {
   //State for the pokemon search results, passed down to Sidebar and Home as props.
   const [pokemonSearchResult, setPokemonSearchResult] = useState([]);
+  //
+  const [loading, setLoading] = useState(true);
 
   //Fetch several Pokemons by name, the endpoint accepts an array of pokemon names or Ids
   const getPokemonsByName = (pokemonList) => {
@@ -75,6 +77,8 @@ const App = () => {
           <Sidebar
             pokemonSearchResult={pokemonSearchResult}
             setPokemonSearchResult={setPokemonSearchResult}
+            loading={loading}
+            setLoading={setLoading}
           />
         </SidebarWrapper>
         <MainWrapper>
@@ -83,6 +87,8 @@ const App = () => {
               <Home
                 pokemonSearchResult={pokemonSearchResult}
                 setPokemonSearchResult={setPokemonSearchResult}
+                loading={loading}
+                setLoading={setLoading}
               />
             </Route>
             <Route exact path="/signup">
@@ -110,7 +116,7 @@ const Wrapper = styled.div`
   position: relative;
   display: grid;
   grid-template-areas:
-    "sidebar header header header"
+    "sidebar header header header "
     "sidebar main main main";
 `;
 

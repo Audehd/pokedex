@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
 import Button from "../Button";
+import { greetings } from "../../UtilityFunctions";
 
 const NavigationBar = () => {
   //State for the current logged in user
@@ -23,19 +24,27 @@ const NavigationBar = () => {
     history.push("/profile");
   };
 
+  //Selects a random greeting to show the user
+  let greeting = greetings[Math.floor(Math.random() * greetings.length)];
+
+  //-------console logs
   console.log("USER STATE", CurrentUserstate);
 
   if (CurrentUserstate) {
     return (
       <Wrapper>
-        <ButtonsWrapper>
+        <SecondWrapper>
+          <div>
+            <Greeting>Welcome {CurrentUserstate.user.user.username}</Greeting>
+            <Question>{greeting}</Question>
+          </div>
           <ButtonWrapper>
             <Button handleClick={pushToTeamsPage} text="My Pokémon teams" />
           </ButtonWrapper>
           <ButtonWrapper>
             <Button handleClick={pushToProfilePage} text="Profile" />
           </ButtonWrapper>
-        </ButtonsWrapper>
+        </SecondWrapper>
       </Wrapper>
     );
   } else {
@@ -57,7 +66,7 @@ const Wrapper = styled.div`
   height: 150px;
 `;
 
-const ButtonsWrapper = styled.div`
+const SecondWrapper = styled.div`
   display: flex;
   flex-direction: row;
 `;
@@ -68,4 +77,18 @@ const ButtonWrapper = styled.div`
   margin-left: auto;
   margin-right: 20px;
   padding-top: 38px;
+`;
+
+const Greeting = styled.div`
+  font-size: 35px;
+  font-weight: 400;
+  padding-top: 38px;
+  margin-left: 20px;
+`;
+
+const Question = styled.div`
+  font-size: 22px;
+  font-weight: 400;
+  margin-left: 20px;
+  padding-top: 5px;
 `;

@@ -7,11 +7,9 @@ import Button from "../Button";
 
 import { getRandomPokemons } from "../../UtilityFunctions";
 
-const Sidebar = ({ pokemonSearchResult, setPokemonSearchResult }) => {
+const Sidebar = ({ setPokemonSearchResult, setLoading }) => {
   //State for search keyword
   const [keyword, setKeyword] = useState();
-  //State for pokedex entries for specific region
-  //const [regionList, setRegionList] = useState();
 
   //list of Pokemon regions
   const regions = {
@@ -31,7 +29,7 @@ const Sidebar = ({ pokemonSearchResult, setPokemonSearchResult }) => {
     setKeyword(value);
   };
 
-  const getPokemonsByName = (pokemonList) => {
+  const getPokemonsByName = (pokemonList, callback) => {
     fetch("/pokemons/pokemon/name", {
       method: "POST",
       body: JSON.stringify(pokemonList),
@@ -42,24 +40,13 @@ const Sidebar = ({ pokemonSearchResult, setPokemonSearchResult }) => {
     })
       .then((res) => res.json())
       .then((res) => {
-        setPokemonSearchResult(res.data.results);
+        callback(res.data.results);
+        setLoading(false);
       })
       .catch((error) => {
         console.log("Error", error);
       });
   };
-
-  // const getPokedexList = () => {
-  //   fetch("/pokedex")
-  //     .then((res) => res.json())
-  //     .then((res) => {
-  //       setRegionList(res.data.results);
-  //     });
-  // };
-
-  useEffect(() => {
-    //getPokedexList();
-  }, []);
 
   //When the user presses the submit button, redirect user to that pokemon page
   //(works with a pokedex number or the pokemon name)
@@ -73,7 +60,8 @@ const Sidebar = ({ pokemonSearchResult, setPokemonSearchResult }) => {
   //then pass that array in the get pokemons by name function
   const handleRandom = (ev) => {
     ev.preventDefault();
-    getRandomPokemons(getPokemonsByName);
+    setLoading(true);
+    getRandomPokemons(getPokemonsByName, setPokemonSearchResult);
   };
 
   //when user selects a region from the dropdown menu, return a list of pokemon from that region

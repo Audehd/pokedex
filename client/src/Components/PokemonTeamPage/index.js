@@ -18,7 +18,8 @@ const PokemonTeamPage = () => {
       .then((res) => res.json())
       .then((res) => {
         //returns an array of pokemon teams
-        setPokemonTeams(res.data);
+        console.log("NEW RES", res.data);
+        setPokemonTeams(res.data.map((each) => each.team));
       });
   };
 

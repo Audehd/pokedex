@@ -15,7 +15,6 @@ const getUserByEmail = async (req, res) => {
 
   console.log(email);
   try {
-    //Declare client, connect to Mongodb and find user
     const client = await MongoClient(MONGO_URI, options);
 
     await client.connect();
@@ -52,7 +51,6 @@ const addUser = async (req, res) => {
       email: req.body.email,
       password: hashedPassword,
     };
-    //Declare client, connect to Mongodb and add user
     const client = await MongoClient(MONGO_URI, options);
 
     await client.connect();
@@ -74,7 +72,6 @@ const loginUser = async (req, res) => {
   const password = req.body.password;
 
   try {
-    //Declare client, connect to Mongodb and find user
     const client = await MongoClient(MONGO_URI, options);
 
     await client.connect();

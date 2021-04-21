@@ -38,7 +38,7 @@ const PokemonTeamCard = ({ team }) => {
   );
 
   //-------Console logs
-  console.log("TEAM INFO FROM TEAM CARD", team);
+  //console.log("TEAM INFO FROM TEAM CARD", team);
   //console.log("TEAM POKEDEX NUMBERS", teamPokedexNumbers);
   //console.log("UPDATED TEAM", updatedTeam);
 

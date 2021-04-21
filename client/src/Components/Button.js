@@ -1,11 +1,15 @@
 import React from "react";
+import Tippy from "@tippy.js/react";
+import "tippy.js/dist/tippy.css";
 import styled from "styled-components";
 
-const Button = ({ handleClick, text, disabled }) => {
+const Button = ({ handleClick, text, disabled, tippyContent }) => {
   return (
-    <LargeButton disabled={disabled} onClick={handleClick}>
-      {text}
-    </LargeButton>
+    <Tippy content={<span>{tippyContent}</span>} enabled={disabled}>
+      <LargeButton disabled={disabled} onClick={handleClick}>
+        {text}
+      </LargeButton>
+    </Tippy>
   );
 };
 
@@ -23,4 +27,9 @@ const LargeButton = styled.button`
   font-size: 18px;
   font-weight: 500;
   cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 `;

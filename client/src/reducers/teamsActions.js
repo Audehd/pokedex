@@ -5,6 +5,16 @@ export const addTeam = (team) => ({
   team,
 });
 
+export const editTeamName = (name) => ({
+  type: TeamTypes.EDIT_TEAM_NAME,
+  name,
+});
+
+export const addPokemonToTeam = (pokemon) => ({
+  type: TeamTypes.ADD_POKEMON_TO_TEAM,
+  pokemon,
+});
+
 export const updateTeam = (team) => ({
   type: TeamTypes.UPDATE_TEAM,
   team,
