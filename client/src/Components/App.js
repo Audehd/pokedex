@@ -19,6 +19,8 @@ const App = () => {
   const [pokemonSearchResult, setPokemonSearchResult] = useState([]);
   //
   const [loading, setLoading] = useState(true);
+  //
+  const [getRandom, setGetRandom] = useState(false);
 
   //Fetch several Pokemons by name, the endpoint accepts an array of pokemon names or Ids
   const getPokemonsByName = (pokemonList) => {
@@ -79,6 +81,8 @@ const App = () => {
             setPokemonSearchResult={setPokemonSearchResult}
             loading={loading}
             setLoading={setLoading}
+            getRandom={getRandom}
+            setGetRandom={setGetRandom}
           />
         </SidebarWrapper>
         <MainWrapper>
@@ -89,6 +93,8 @@ const App = () => {
                 setPokemonSearchResult={setPokemonSearchResult}
                 loading={loading}
                 setLoading={setLoading}
+                getRandom={getRandom}
+                setGetRandom={setGetRandom}
               />
             </Route>
             <Route exact path="/signup">
@@ -116,18 +122,18 @@ const Wrapper = styled.div`
   position: relative;
   display: grid;
   grid-template-areas:
-    "sidebar header header header "
-    "sidebar main main main";
+    "sidebar header"
+    "sidebar main";
+  grid-template-columns: 400px 1fr;
+  grid-template-rows: 150px 1fr;
 `;
 
 const HeaderWrapper = styled.header`
   grid-area: header;
-  //border-bottom: 3px dashed #ff406e;
 `;
 
 const SidebarWrapper = styled.div`
   grid-area: sidebar;
-  //border-right: 3px dashed #ff406e;
 `;
 
 const MainWrapper = styled.main`

@@ -1,16 +1,7 @@
 import { TeamTypes } from "./actionTypes";
 const initialState = {
-  // user: "",
   teamName: "",
-  team: [
-    // {
-    //   pokemonName: "",
-    //   pokedexNumber: "",
-    //   nickname: "",
-    //   nature: "",
-    //   helditem: "",
-    // },
-  ],
+  team: [],
 };
 
 //
@@ -34,13 +25,18 @@ const teamsReducer = (state = initialState, action) => {
           ...state.team,
           // and the new pokemon object
           {
-            pokemonName: action.pokemon.pokemonName,
-            pokedexNumber: action.pokemon.pokedexNumber,
+            pokemonName: "pokemon",
+            pokedexNumber: action.pokedexNumber,
             nickname: action.pokemon.nickname,
-            nature: action.pokemon.nature,
+            nature: action.nature,
             helditem: action.pokemon.helditem,
           },
         ],
+      };
+    }
+    case TeamTypes.STOP_TEAM: {
+      return {
+        ...initialState,
       };
     }
     default:

@@ -38,9 +38,10 @@ const PokemonTeamCard = ({ team }) => {
   );
 
   //-------Console logs
-  //console.log("TEAM INFO FROM TEAM CARD", team);
+  console.log("TEAM INFO FROM TEAM CARD", team);
   //console.log("TEAM POKEDEX NUMBERS", teamPokedexNumbers);
   //console.log("UPDATED TEAM", updatedTeam);
+  console.log("team ids", team.teamId);
 
   if (updatedTeam) {
     return (
@@ -80,81 +81,3 @@ const TeamName = styled.div`
   text-align: center;
   margin: 0 0 25px 0;
 `;
-
-const ImageWrapper = styled.div`
-  background: white;
-  overflow: hidden;
-  border-radius: 12px;
-  border: 3px solid rgba(0, 0, 0, 0.1);
-  width: 100px;
-`;
-
-const PokemonWrapper = styled.div`
-  border-radius: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background-color: #ffabab;
-  margin: 10px 0 0 0;
-  display: flex;
-  flex-direction: row;
-`;
-
-const Image = styled.img`
-  display: block;
-  max-width: 100%;
-`;
-
-const InfoWrapper = styled.div``;
-
-const Name = styled.span`
-  font-size: 18px;
-  font-weight: 500;
-  color: black;
-  margin: 5px 5px 0 10px;
-`;
-
-const Number = styled.span`
-  margin: 5px 0 0 0;
-  font-size: 16px;
-  font-weight: 500;
-  color: whitesmoke;
-`;
-
-const Nickname = styled.p`
-  margin: 5px 0 0 10px;
-  font-size: 18px;
-  font-weight: 500;
-  text-align: left;
-`;
-
-const HeldItem = styled.p`
-  margin: 5px 0 0 10px;
-  font-size: 18px;
-  font-weight: 500;
-  text-align: left;
-`;
-
-const Nature = styled.p`
-  margin: 5px 0 0 10px;
-  font-size: 18px;
-  font-weight: 500;
-  text-align: left;
-`;
-
-const Value = styled.span`
-  color: whitesmoke;
-  margin-left: 5px;
-`;
-
-// const StatName = styled.p`
-//   margin: 5px 0 0 10px;
-//   font-size: 18px;
-//   font-weight: 500;
-//   text-align: left;
-// `;
-
-// const StatValue = styled.p`
-//   margin: 5px 0 0 10px;
-//   font-size: 18px;
-//   font-weight: 500;
-//   text-align: left;
-// `;

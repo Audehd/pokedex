@@ -1,15 +1,19 @@
 import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
 import Button from "../Button";
-import { greetings } from "../../UtilityFunctions";
+import { greetings } from "../../Data";
+
+import { logout } from "../../reducers/actions";
 
 const NavigationBar = () => {
   //State for the current logged in user
   const CurrentUserstate = useSelector((state) => state);
 
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const pushToLogIn = () => {
@@ -24,13 +28,19 @@ const NavigationBar = () => {
     history.push("/profile");
   };
 
+  const logOut = () => {
+    dispatch(logout(CurrentUserstate.user));
+    localStorage.clear();
+    history.push("/");
+  };
+
   //Selects a random greeting to show the user
   let greeting = greetings[Math.floor(Math.random() * greetings.length)];
 
   //-------console logs
   console.log("USER STATE", CurrentUserstate);
 
-  if (CurrentUserstate) {
+  if (CurrentUserstate.user.user.username.length > 0) {
     return (
       <Wrapper>
         <SecondWrapper>
@@ -43,6 +53,9 @@ const NavigationBar = () => {
           </ButtonWrapper>
           <ButtonWrapper>
             <Button handleClick={pushToProfilePage} text="Profile" />
+          </ButtonWrapper>
+          <ButtonWrapper>
+            <Button handleClick={logOut} text="Log out" />
           </ButtonWrapper>
         </SecondWrapper>
       </Wrapper>
@@ -87,6 +100,7 @@ const Greeting = styled.div`
 `;
 
 const Question = styled.div`
+  color: white;
   font-size: 22px;
   font-weight: 400;
   margin-left: 20px;

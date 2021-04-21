@@ -10,9 +10,15 @@ export const editTeamName = (name) => ({
   name,
 });
 
-export const addPokemonToTeam = (pokemon) => ({
+export const addPokemonToTeam = (pokemon, nature, pokedexNumber) => ({
   type: TeamTypes.ADD_POKEMON_TO_TEAM,
   pokemon,
+  nature,
+  pokedexNumber,
+});
+
+export const stopTeam = () => ({
+  type: TeamTypes.STOP_TEAM,
 });
 
 export const updateTeam = (team) => ({

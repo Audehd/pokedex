@@ -14,3 +14,8 @@ export const login = (user) => ({
   type: Types.LOGIN,
   user,
 });
+
+export const logout = (user) => ({
+  type: Types.LOG_OUT,
+  user,
+});

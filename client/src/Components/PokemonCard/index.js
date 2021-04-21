@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import PokemonType from "./PokemonType";
@@ -24,18 +24,10 @@ const PokemonCard = ({ name, pokedexNumber, imgSrc, types }) => {
     getPokemonSpeciesByName();
   }, []);
 
-  //console.log("pokemon info", pokemonInfo);
-
-  //this function redirects to the pokemon details page when the pokemon card is clicked
-  // const viewPokemonDetails = () => {
-  //   history.push(`/pokemon/${pokedexNumber}`);
-  // };
-
   if (pokemonInfo) {
     return (
       <Wrapper
         to={`/pokemon/${pokedexNumber}`}
-        //onClick={viewPokemonDetails}
         bgColor={setBackgroundColor(pokemonInfo.color.name)}
       >
         <ImageWrapper bgColor={setBackgroundColor(pokemonInfo.color.name)}>
@@ -105,9 +97,3 @@ const Number = styled.h3`
   font-size: 16px;
   font-weight: 600;
 `;
-
-{
-  /* <Button onClick={() => dispatch(addItem({ id, title, price }))}>
-Add to team
-</Button> */
-}

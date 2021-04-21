@@ -7,10 +7,11 @@ import Button from "../Button";
 import Input from "./Input";
 
 import {
-  addTeam,
   addPokemonToTeam,
   editTeamName,
+  stopTeam,
 } from "../../reducers/teamsActions";
+import { allPokemonList } from "../../Data";
 
 const customStyles = {
   content: {
@@ -20,6 +21,7 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
+    width: "500px",
   },
 };
 
@@ -35,15 +37,17 @@ const initialTeamState = {
 Modal.setAppElement("#root");
 
 const AddTeamModal = () => {
+  //state for Pokemon natures list
+  const [natures, setNatures] = useState();
   //state for the add pokemon to team form
   const [teamData, setTeamData] = useState(initialTeamState);
   //state for team name
   const [teamName, setTeamName] = useState();
-  //
-  const [newTeam, setNewTeam] = useState();
-  //state for POkemon natures list
-  const [natures, setNatures] = useState();
-  //State for the current logged in user
+  //state for pokemon nature (user selects from dropdown menu)
+  const [nature, setNature] = useState();
+  //state for pokemon pokedexNumber (user selects from dropdown menu)
+  const [pokedexNumber, setPokedexNumber] = useState();
+  //States for the current logged in user and their teams
   const currentUserstate = useSelector((state) => state.user);
   const currentTeamstate = useSelector((state) => state.teams);
 
@@ -79,29 +83,38 @@ const AddTeamModal = () => {
   };
 
   const closeModal = () => {
+    //return to initial state for pokemon team
+    dispatch(stopTeam(teamName));
     setIsOpen(false);
   };
 
-  const handleTeamName = (value, name) => {
+  //function to set the team name
+  const handleTeamName = (value) => {
     setTeamName(value);
   };
 
-  const handleChange = (value, name) => {
-    console.log(value, name);
-    //setTeamName(NewTeamName.value);
-    setTeamData({ ...teamData, [name]: value });
-    // setNewTeam({
-    //   user: currentUserstate.user.username,
-    //   teamName,
-    //   team: teamData,
-    // });
+  //function to set the nature of the pokemon (from a dropdown menu)
+  const handleNatureSelect = (value) => {
+    setNature(value);
   };
 
+  const handlePokemonSelect = (value) => {
+    setPokedexNumber(value);
+  };
+
+  //function to change the team info from the text fields
+  const handleChange = (value, name) => {
+    console.log(value, name);
+    setTeamData({ ...teamData, [name]: value });
+  };
+
+  //function that add a new pokemon to the team
+  //send to dispatch the team name and pokemon info
   const handleSubmitPokemon = (ev) => {
     ev.preventDefault();
     dispatch(editTeamName(teamName));
-    dispatch(addPokemonToTeam(teamData));
-    //----------------------------------------
+    dispatch(addPokemonToTeam(teamData, nature, pokedexNumber));
+    //------------------------------------------------
     //disable and hide the team name field
     //teamNameTextField.current.style.display = "none";
     //show the team name in team name box
@@ -112,12 +125,14 @@ const AddTeamModal = () => {
     //teamNameBox.current.innerHTML = currentTeamstate.team.map(
     // (pokemon) => pokemon.pokemonName
     //);
-    //-----------------------------------------
-    //console.log("clicked submit", newTeam);
   };
 
+  //Function that sends the new team data to the server
+  //Send the user info and the team info
+  //Button is disabled until user adds at least one Pokemon
   const handleSubmitTeam = (ev) => {
     ev.preventDefault();
+    setIsOpen(false);
     const body = { user: currentUserstate.user, team: currentTeamstate };
     console.log(body);
     fetch("/teams/addteam", {
@@ -139,13 +154,11 @@ const AddTeamModal = () => {
       });
   };
 
-  const handleNatureSelect = () => {};
-
   //-------Console logs
   //console.log("NATURES LIST", natures);
-  console.log("Current user", currentUserstate);
+  //console.log("Current user", currentUserstate);
   //console.log("TEAMS (reducer)", teams);
-  console.log("current team state", currentTeamstate);
+  //console.log("current team state", currentTeamstate);
 
   useEffect(() => {
     getNaturesList();
@@ -164,7 +177,7 @@ const AddTeamModal = () => {
         contentLabel="Example Modal"
       >
         <ButtonWrapper>
-          <Button onClick={closeModal} text="Close"></Button>
+          <Button handleClick={closeModal} text="Close"></Button>
         </ButtonWrapper>
         <TeamName
           ref={teamNameBox}
@@ -184,24 +197,26 @@ const AddTeamModal = () => {
             placeholder="Team Name"
             type="text"
             handleChange={handleTeamName}
-            //value={newTeamName}
           />
-          <Input
-            required="required"
-            name="pokemonName"
-            placeholder="Pokemon Name"
-            type="text"
-            handleChange={handleChange}
-            value={teamData.pokemonName}
-          />
-          <Input
-            required="required"
-            name="pokedexNumber"
-            placeholder="Pokedex Number"
-            type="text"
-            handleChange={handleChange}
-            value={teamData.pokedexNumber}
-          />
+          <Label>Pokemon Name</Label>
+          {allPokemonList ? (
+            <Select onChange={(ev) => handlePokemonSelect(ev.target.value)}>
+              <option key={0}>Select a Pokemon</option>
+              {allPokemonList.map((pokemon) => {
+                return (
+                  <option
+                    key={pokemon.pokedexNumber}
+                    value={pokemon.pokedexNumber}
+                    name={pokemon.name}
+                  >
+                    {pokemon.name}
+                  </option>
+                );
+              })}
+            </Select>
+          ) : (
+            <p>...Loading</p>
+          )}
           <Input
             required="required"
             name="nickname"
@@ -210,17 +225,9 @@ const AddTeamModal = () => {
             handleChange={handleChange}
             value={teamData.nickname}
           />
-          <Input
-            required="required"
-            name="nature"
-            placeholder="Nature"
-            type="text"
-            handleChange={handleChange}
-            value={teamData.nature}
-          />
-          {/* <Label>Nature</Label>
+          <Label>Nature</Label>
           {natures ? (
-            <Select onChange={(ev) => handleNatureSelect(ev)}>
+            <Select onChange={(ev) => handleNatureSelect(ev.target.value)}>
               <option key={0}>Select a nature</option>
               {natures.map((nature) => {
                 return (
@@ -232,7 +239,7 @@ const AddTeamModal = () => {
             </Select>
           ) : (
             <p>...Loading</p>
-          )} */}
+          )}
           <Input
             required="required"
             name="helditem"

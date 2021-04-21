@@ -12,6 +12,7 @@ const Home = ({
   setPokemonSearchResult,
   loading,
   setLoading,
+  getRandom,
 }) => {
   //State for the current logged in user
   const CurrentUserstate = useSelector((state) => state.user);
@@ -37,8 +38,10 @@ const Home = ({
   };
 
   useEffect(() => {
+    //Function to generate an array of numbers (national dex numbers)
+    //then pass that array in the get pokemons by name function
     getRandomPokemons(getPokemonsByName, setPokemonSearchResult);
-  }, []);
+  }, [getRandom]);
 
   //Load more pokemon at bottom of page
   const loadMorePokemon = (ev) => {
@@ -85,7 +88,7 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   grid-gap: 24px;
-  //width: 70%;
+  margin: 50px;
 `;
 
 const ButtonWrapper = styled.div`

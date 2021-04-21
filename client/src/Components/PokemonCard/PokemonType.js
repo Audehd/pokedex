@@ -115,6 +115,8 @@ const PokemonType = ({ type, size }) => {
   };
   if (size === "large") {
     return <LargeType color={setColors(type)}>{type}</LargeType>;
+  } else if (size === "sidebar") {
+    return <SidebarType color={setColors(type)}>{type}</SidebarType>;
   } else {
     return <Type color={setColors(type)}>{type}</Type>;
   }
@@ -139,6 +141,15 @@ const Type = styled.div`
 const LargeType = styled(Type)`
   font-size: 20px;
   width: 25%;
+  min-width: 100px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+`;
+
+const SidebarType = styled(Type)`
+  font-size: 20px;
+  font-weight: 350;
+  width: 150px;
   min-width: 100px;
   margin-top: 10px;
   margin-bottom: 5px;

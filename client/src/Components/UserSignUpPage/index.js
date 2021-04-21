@@ -167,8 +167,8 @@ const Wrapper = styled.div`
   /* display: flex;
   justify-content: center;
   align-items: center; */
-  margin: 0 auto;
-  width: 30%;
+  margin: 300px auto;
+  width: 500px;
   background-color: #ff6961;
   border: 8px solid rgba(0, 0, 0, 0.1);
   border-radius: 10px;

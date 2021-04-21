@@ -5,13 +5,16 @@ import styled from "styled-components";
 
 const Button = ({ handleClick, text, disabled, tippyContent }) => {
   return (
-    <Tippy content={<span>{tippyContent}</span>} enabled={disabled}>
-      <LargeButton disabled={disabled} onClick={handleClick}>
-        {text}
-      </LargeButton>
+    <Tippy content={<span>{tippyContent}</span>}>
+      <div disabled={!disabled}>
+        <LargeButton disabled={disabled} onClick={handleClick}>
+          {text}
+        </LargeButton>
+      </div>
     </Tippy>
   );
 };
+//if div is disabled, could cause problem with button
 
 export default Button;
 

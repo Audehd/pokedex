@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
 import Input from "../UserSignUpPage/Input";
+
 import Button from "../Button";
 
 import { login } from "../../reducers/actions";
@@ -18,7 +19,11 @@ const UserSignIn = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  //function to update form data state when user types something in the fileds
+  const pushToSignUp = () => {
+    history.push("/signup");
+  };
+
+  //function to update form data state when user types something in the fields
   const handleChange = (value, item) => {
     setFormData({ ...formData, [item]: value });
   };
@@ -71,6 +76,14 @@ const UserSignIn = () => {
           Submit
         </Button>
       </ButtonWrapper>
+      <SignUpWrapper>
+        <Message>Don't have an account?</Message>
+        <ButtonWrapper>
+          <Button text="Signup" handleClick={pushToSignUp}>
+            Submit
+          </Button>
+        </ButtonWrapper>
+      </SignUpWrapper>
       <Error ref={errorBox} id="error" name="error"></Error>
     </Wrapper>
   );
@@ -79,11 +92,8 @@ const UserSignIn = () => {
 export default UserSignIn;
 
 const Wrapper = styled.div`
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
-  margin: 0 auto;
-  width: 30%;
+  margin: 300px auto;
+  width: 500px;
   background-color: #ff6961;
   border: 8px solid rgba(0, 0, 0, 0.1);
   border-radius: 10px;
@@ -94,6 +104,16 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin: 15px 0 0 0;
+`;
+
+const SignUpWrapper = styled.div`
+  display: block;
+`;
+
+const Message = styled.p`
+  font-size: 22px;
+  font-weight: 400;
+  margin: 15px auto;
 `;
 
 const Error = styled.div`

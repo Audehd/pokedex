@@ -62,7 +62,7 @@ export const setBackgroundColor = (color) => {
 };
 
 export const getRandomPokemons = (callback, nextcallback) => {
-  const randomPokemonIds = Array.from({ length: 20 }, () =>
+  const randomPokemonIds = Array.from({ length: 24 }, () =>
     Math.ceil(Math.random() * 893)
   );
   callback(randomPokemonIds, nextcallback);
@@ -87,24 +87,3 @@ export const getPokemonsByName = (pokemonList, callback) => {
       console.log("Error", error);
     });
 };
-
-// const getPokedexList = () => {
-//   fetch("/pokedex")
-//     .then((res) => res.json())
-//     .then((res) => {
-//       setRegionList(res.data.results);
-//     });
-// };
-
-export const greetings = [
-  "How are you today?",
-  "What can I help you with?",
-  "Such nice weather outside right now!",
-  "It’s great to see you",
-  "Lovely to see you",
-  "Alright, mate?",
-  "What’s up buttercup?",
-  "Hello, sunshine!",
-  "Howdy-doody!",
-  "Konnichiwa!",
-];

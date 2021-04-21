@@ -4,48 +4,30 @@ import styled from "styled-components";
 
 import SearchInput from "./searchInput";
 import Button from "../Button";
+import PokemonType from "../PokemonCard/PokemonType";
 
 import { getRandomPokemons } from "../../UtilityFunctions";
+import { regions } from "../../Data";
 
-const Sidebar = ({ setPokemonSearchResult, setLoading }) => {
+const Sidebar = ({ setLoading, getRandom, setGetRandom }) => {
   //State for search keyword
   const [keyword, setKeyword] = useState();
-
-  //list of Pokemon regions
-  const regions = {
-    Kanto: { start: 0, end: 151 },
-    Johto: { start: 152, end: 251 },
-    Hoenn: { start: 252, end: 386 },
-    Sinnoh: { start: 387, end: 493 },
-    Unova: { start: 494, end: 649 },
-    Kalos: { start: 650, end: 721 },
-    Alola: { start: 722, end: 809 },
-    Galar: { start: 810, end: 898 },
-  };
+  //State for pokemon types
+  const [types, setTypes] = useState();
 
   const history = useHistory();
 
-  const handleChange = (value) => {
-    setKeyword(value);
-  };
-
-  const getPokemonsByName = (pokemonList, callback) => {
-    fetch("/pokemons/pokemon/name", {
-      method: "POST",
-      body: JSON.stringify(pokemonList),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
+  const getAllTypes = () => {
+    fetch("/types")
       .then((res) => res.json())
       .then((res) => {
-        callback(res.data.results);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("Error", error);
+        setTypes(res.data.results);
       });
+  };
+
+  //Function to set the search keyword when the user types in the search field
+  const handleChange = (value) => {
+    setKeyword(value);
   };
 
   //When the user presses the submit button, redirect user to that pokemon page
@@ -56,12 +38,12 @@ const Sidebar = ({ setPokemonSearchResult, setLoading }) => {
     history.push(`/pokemon/${keyword}`);
   };
 
-  //Function to generate an array of numbers (national dex numbers)
-  //then pass that array in the get pokemons by name function
+  //function to pass information to the Home component
+  //it loads random Pokemons everytime the button is clicked
   const handleRandom = (ev) => {
     ev.preventDefault();
     setLoading(true);
-    getRandomPokemons(getPokemonsByName, setPokemonSearchResult);
+    setGetRandom(!getRandom);
   };
 
   //when user selects a region from the dropdown menu, return a list of pokemon from that region
@@ -71,6 +53,10 @@ const Sidebar = ({ setPokemonSearchResult, setLoading }) => {
     console.log("RANGE", regionalPokedex);
     //getPokemonsByName(regionalPokedex);
   };
+
+  useEffect(() => {
+    getAllTypes();
+  }, []);
 
   return (
     <Wrapper>
@@ -107,6 +93,18 @@ const Sidebar = ({ setPokemonSearchResult, setLoading }) => {
           </Select>
         </label>
       </Form>
+      <Filter>Search by Type</Filter>
+      {types ? (
+        <TypesWrapper>
+          {types.map((type) => {
+            return <PokemonType size="sidebar" type={type.name} />;
+          })}
+        </TypesWrapper>
+      ) : (
+        <>
+          <div>Loading...</div>
+        </>
+      )}
     </Wrapper>
   );
 };
@@ -133,7 +131,7 @@ const SearchLabel = styled.p`
 `;
 
 const ButtonWrapper = styled.div`
-  margin: 15px 0;
+  margin: 15px 22px;
   width: 80%;
 `;
 
@@ -159,5 +157,11 @@ const Select = styled.select`
 
 const Filter = styled.p`
   font-size: 30px;
-  margin: 100px 10px 0 10px;
+  margin: 40px 10px 0 10px;
+`;
+
+const TypesWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 15px;
 `;

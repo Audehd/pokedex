@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 import { setBackgroundColor } from "../../UtilityFunctions";
@@ -95,27 +96,27 @@ const EvolutionCard = ({ evolutionChainLink, color }) => {
   ) {
     return (
       <Wrapper bgColor={setBackgroundColor(color)}>
-        <FirstStageWrapper>
+        <FirstStageWrapper to={`/pokemon/${firstStageInfo.id}`}>
           <Image
             src={firstStageInfo.sprites.other["official-artwork"].front_default}
           />
           <Name>{firstStage}</Name>
-          <Number> #{thirdStageInfo.id}</Number>
+          <Number> #{firstStageInfo.id}</Number>
         </FirstStageWrapper>
         <SecondStageWrapper>
           {secondStageInfo.map((pokemon) => {
             return (
-              <>
+              <LinkWrapper to={`/pokemon/${pokemon.id}`}>
                 <Image
                   src={pokemon.sprites.other["official-artwork"].front_default}
                 />
                 <Name key={pokemon.species.name}>{pokemon.species.name}</Name>
                 <Number> #{pokemon.id}</Number>
-              </>
+              </LinkWrapper>
             );
           })}
         </SecondStageWrapper>
-        <ThirdStageWrapper>
+        <ThirdStageWrapper to={`/pokemon/${thirdStageInfo.id}`}>
           <Image
             src={thirdStageInfo.sprites.other["official-artwork"].front_default}
           />
@@ -147,6 +148,21 @@ const Wrapper = styled.div`
   }
 `;
 
+const LinkWrapper = styled(Link)`
+  text-decoration: none;
+  color: black;
+  display: flex;
+  flex-direction: column;
+
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
+    text-decoration: none;
+  }
+`;
+
 const Image = styled.img`
   width: 225px;
   height: auto;
@@ -165,9 +181,19 @@ const Number = styled.span`
   color: gray;
 `;
 
-const FirstStageWrapper = styled.div`
+const FirstStageWrapper = styled(Link)`
+  text-decoration: none;
+  color: black;
   display: flex;
   flex-direction: column;
+
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
+    text-decoration: none;
+  }
 `;
 
 const SecondStageWrapper = styled.div`
@@ -175,7 +201,17 @@ const SecondStageWrapper = styled.div`
   flex-direction: column;
 `;
 
-const ThirdStageWrapper = styled.div`
+const ThirdStageWrapper = styled(Link)`
+  text-decoration: none;
+  color: black;
   display: flex;
   flex-direction: column;
+
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
+    text-decoration: none;
+  }
 `;

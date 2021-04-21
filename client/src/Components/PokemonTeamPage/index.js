@@ -19,7 +19,16 @@ const PokemonTeamPage = () => {
       .then((res) => {
         //returns an array of pokemon teams
         console.log("NEW RES", res.data);
-        setPokemonTeams(res.data.map((each) => each.team));
+        //setPokemonTeams(res.data.map((each) => each.team));
+        setPokemonTeams(
+          res.data.map((each) => {
+            return {
+              teamId: each._id,
+              teamName: each.team.teamName,
+              team: each.team.team,
+            };
+          })
+        );
       });
   };
 
@@ -55,6 +64,8 @@ const Wrapper = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(410px, 1fr));
   grid-gap: 24px;
   width: 70%;
+  margin: auto;
+  margin-top: 80px;
 `;
 
 const Title = styled.h1`

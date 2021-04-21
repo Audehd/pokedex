@@ -98,10 +98,12 @@ const PokemonInfoPage = () => {
             </FlavorText>
             <InfoWrapper bgColor={setBackgroundColor(pokemonInfo.color.name)}>
               <StatKey>
-                <span>Height:</span> <StatValue>{pokemon.height}</StatValue>
+                <span>Height:</span>{" "}
+                <StatValue>{pokemon.height * 10} cm</StatValue>
               </StatKey>
               <StatKey>
-                <span>Weight:</span> <StatValue>{pokemon.weight}</StatValue>
+                <span>Weight:</span>{" "}
+                <StatValue>{pokemon.weight / 10} kg</StatValue>
               </StatKey>
               <StatKey>
                 Abilities:{" "}
@@ -146,6 +148,7 @@ const Wrapper = styled.div`
   text-align: center;
   width: 70%;
   margin: auto;
+  margin-top: 100px;
 
   @media (max-width: 1000px) {
     display: flex;
@@ -169,7 +172,6 @@ const ImageWrapper = styled.div`
 const SecondWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  //border: 5px solid blue;
 
   @media (max-width: 1000px) {
     flex-direction: column;

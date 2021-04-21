@@ -30,7 +30,7 @@ const LittlePokemonCard = ({ pokemon }) => {
           />
         </ImageWrapper>
         <InfoWrapper>
-          <Name key={pokemon.pokedexNumber}>{pokemon.pokemonName}</Name>
+          <Name key={pokemon.pokedexNumber}>{pokemon.species.name}</Name>
           <Number>#{pokemon.pokedexNumber}</Number>
           <Nickname>
             Nickname: <Value>{pokemon.nickname}</Value>
@@ -41,14 +41,6 @@ const LittlePokemonCard = ({ pokemon }) => {
           <HeldItem>
             Held Item: <Value>{pokemon.helditem}</Value>
           </HeldItem>
-          {/* {pokemon.stats.map((stat) => {
-          return (
-            <>
-              <StatName>{stat.stat.name}</StatName>
-              <StatValue>{stat.base_stat}</StatValue>
-            </>
-          );
-        })} */}
         </InfoWrapper>
       </PokemonWrapper>
     );
@@ -126,17 +118,3 @@ const Value = styled.span`
   color: #6c757d;
   margin-left: 5px;
 `;
-
-// const StatName = styled.p`
-//   margin: 5px 0 0 10px;
-//   font-size: 18px;
-//   font-weight: 500;
-//   text-align: left;
-// `;
-
-// const StatValue = styled.p`
-//   margin: 5px 0 0 10px;
-//   font-size: 18px;
-//   font-weight: 500;
-//   text-align: left;
-// `;

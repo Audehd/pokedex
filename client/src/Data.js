@@ -1,4 +1,28 @@
-export const PokemonList = [
+export const greetings = [
+  "How are you today?",
+  "What can I help you with?",
+  "Such nice weather outside right now!",
+  "It’s great to see you",
+  "Lovely to see you",
+  "Alright, mate?",
+  "What’s up buttercup?",
+  "Hello, sunshine!",
+  "Howdy-doody!",
+  "Konnichiwa!",
+];
+
+export const regions = {
+  Kanto: { start: 0, end: 151 },
+  Johto: { start: 152, end: 251 },
+  Hoenn: { start: 252, end: 386 },
+  Sinnoh: { start: 387, end: 493 },
+  Unova: { start: 494, end: 649 },
+  Kalos: { start: 650, end: 721 },
+  Alola: { start: 722, end: 809 },
+  Galar: { start: 810, end: 898 },
+};
+
+export const allPokemonList = [
   { name: "Bulbasaur", pokedexNumber: 1 },
   { name: "Ivysaur", pokedexNumber: 2 },
   { name: "Venusaur", pokedexNumber: 3 },
