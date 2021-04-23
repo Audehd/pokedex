@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { FiX } from "react-icons/fi";
 
 import { setBackgroundColor } from "../../UtilityFunctions";
 
-const LittlePokemonCard = ({ pokemon }) => {
+const LittlePokemonCard = ({ pokemon, fiShow, handleClick, teamId }) => {
   //state for aditional Pokemon information about the pokemeon
   const [pokemonInfo, setPokemonInfo] = useState();
 
@@ -22,7 +24,10 @@ const LittlePokemonCard = ({ pokemon }) => {
 
   if (pokemonInfo) {
     return (
-      <PokemonWrapper bgColor={setBackgroundColor(pokemonInfo.color.name)}>
+      <PokemonWrapper
+        //to={`/pokemon/${pokemon.id}`}
+        bgColor={setBackgroundColor(pokemonInfo.color.name)}
+      >
         <ImageWrapper bgColor={setBackgroundColor(pokemonInfo.color.name)}>
           <Image
             src={pokemon.sprites.front_default}
@@ -42,6 +47,13 @@ const LittlePokemonCard = ({ pokemon }) => {
             Held Item: <Value>{pokemon.helditem}</Value>
           </HeldItem>
         </InfoWrapper>
+        {fiShow && (
+          <FiButton
+            onClick={(ev) => handleClick(ev, teamId, pokemon.pokedexNumber)}
+          >
+            <FiX />
+          </FiButton>
+        )}
       </PokemonWrapper>
     );
   } else {
@@ -52,7 +64,6 @@ const LittlePokemonCard = ({ pokemon }) => {
 export default LittlePokemonCard;
 
 const ImageWrapper = styled.div`
-  //background: white;
   //Set the background color using props, from the setBackgroundColor function
   background: ${({ bgColor }) => bgColor.secondaryColor};
   overflow: hidden;
@@ -61,15 +72,25 @@ const ImageWrapper = styled.div`
   width: 100px;
 `;
 
-const PokemonWrapper = styled.div`
+const PokemonWrapper = styled(Link)`
+  position: relative;
+  text-decoration: none;
+  color: black;
   border-radius: 12px;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  //background-color: #ffabab;
   //Set the background color using props, from the setBackgroundColor function
   background: ${({ bgColor }) => bgColor.backgroundColor};
   margin: 10px 0 0 0;
   display: flex;
   flex-direction: row;
+
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
+    text-decoration: none;
+  }
 `;
 
 const Image = styled.img`
@@ -117,4 +138,15 @@ const Nature = styled.p`
 const Value = styled.span`
   color: #6c757d;
   margin-left: 5px;
+`;
+
+const FiButton = styled.button`
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  margin-right: 0px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 20px;
 `;

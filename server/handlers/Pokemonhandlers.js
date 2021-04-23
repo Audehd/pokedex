@@ -88,7 +88,7 @@ const getPokemonList = (req, res) => {
   };
 
   var interval = {
-    limit: 20,
+    limit: 100,
     offset: getRandomInt(1, 893),
   };
 

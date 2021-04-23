@@ -13,6 +13,7 @@ import PokemonInfoPage from "./PokemonInfoPage";
 
 import { login } from "../reducers/actions";
 import PokemonTeamPage from "./PokemonTeamPage";
+import UserProfile from "./UserProfile";
 
 const App = () => {
   //State for the pokemon search results, passed down to Sidebar and Home as props.
@@ -22,26 +23,26 @@ const App = () => {
   //
   const [getRandom, setGetRandom] = useState(false);
 
-  //Fetch several Pokemons by name, the endpoint accepts an array of pokemon names or Ids
-  const getPokemonsByName = (pokemonList) => {
-    fetch("/pokemons/pokemon/name", {
-      method: "POST",
-      body: JSON.stringify(pokemonList),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        setPokemonSearchResult(res.data);
-      })
-      .catch((error) => {
-        console.log("Error", error);
-      });
-  };
-
   const dispatch = useDispatch();
+
+  //Fetch several Pokemons by name, the endpoint accepts an array of pokemon names or Ids
+  // const getPokemonsByName = (pokemonList) => {
+  //   fetch("/pokemons/pokemon/name", {
+  //     method: "POST",
+  //     body: JSON.stringify(pokemonList),
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       setPokemonSearchResult(res.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log("Error", error);
+  //     });
+  // };
 
   useEffect(() => {
     const email = localStorage.getItem("userEmail");
@@ -49,7 +50,6 @@ const App = () => {
     if (email) {
       fetch(`/users/user/${email}`, {
         method: "GET",
-        //body: JSON.stringify(formData),
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -108,6 +108,9 @@ const App = () => {
             </Route>
             <Route exact path="/myteams">
               <PokemonTeamPage />
+            </Route>
+            <Route exact path="/users/:username">
+              <UserProfile />
             </Route>
           </Switch>
         </MainWrapper>

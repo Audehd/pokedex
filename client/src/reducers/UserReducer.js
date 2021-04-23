@@ -4,6 +4,9 @@ const initialState = {
     id: "",
     username: "",
     email: "",
+    city: "",
+    gender: "",
+    favoritepokemons: [],
   },
 };
 

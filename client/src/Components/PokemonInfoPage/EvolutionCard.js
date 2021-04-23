@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import { setBackgroundColor } from "../../UtilityFunctions";
@@ -11,7 +11,7 @@ const EvolutionCard = ({ evolutionChainLink, color }) => {
   const [thirdStage, setThirdStage] = useState();
   //Loading state
   const [loading, setLoading] = useState(true);
-
+  //states for all stages information (picture, name, pokedexNumber...)
   const [firstStageInfo, setFirstStageInfo] = useState();
   const [secondStageInfo, setSecondStageInfo] = useState();
   const [thirdStageInfo, setThirdStageInfo] = useState();
@@ -141,7 +141,7 @@ const Wrapper = styled.div`
   margin-top: 50px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
 
   @media (max-width: 1000px) {
     flex-direction: column;

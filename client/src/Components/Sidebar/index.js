@@ -6,10 +6,15 @@ import SearchInput from "./searchInput";
 import Button from "../Button";
 import PokemonType from "../PokemonCard/PokemonType";
 
-import { getRandomPokemons } from "../../UtilityFunctions";
 import { regions } from "../../Data";
 
-const Sidebar = ({ setLoading, getRandom, setGetRandom }) => {
+const Sidebar = ({
+  setLoading,
+  getRandom,
+  setGetRandom,
+  pokemonSearchResult,
+  setPokemonSearchResult,
+}) => {
   //State for search keyword
   const [keyword, setKeyword] = useState();
   //State for pokemon types
@@ -17,6 +22,7 @@ const Sidebar = ({ setLoading, getRandom, setGetRandom }) => {
 
   const history = useHistory();
 
+  //function to get all pokemon types
   const getAllTypes = () => {
     fetch("/types")
       .then((res) => res.json())
@@ -27,7 +33,7 @@ const Sidebar = ({ setLoading, getRandom, setGetRandom }) => {
 
   //Function to set the search keyword when the user types in the search field
   const handleChange = (value) => {
-    setKeyword(value);
+    setKeyword(value.toLowerCase());
   };
 
   //When the user presses the submit button, redirect user to that pokemon page
@@ -42,6 +48,7 @@ const Sidebar = ({ setLoading, getRandom, setGetRandom }) => {
   //it loads random Pokemons everytime the button is clicked
   const handleRandom = (ev) => {
     ev.preventDefault();
+    history.push("/");
     setLoading(true);
     setGetRandom(!getRandom);
   };
@@ -52,6 +59,18 @@ const Sidebar = ({ setLoading, getRandom, setGetRandom }) => {
     const regionalPokedex = regions[selected];
     console.log("RANGE", regionalPokedex);
     //getPokemonsByName(regionalPokedex);
+  };
+
+  const filterPokemonByType = (ev, typefilter) => {
+    ev.preventDefault();
+    const result = pokemonSearchResult.filter((pokemon) => {
+      //console.log(pokemon);
+      let types = pokemon.types.map((type) => type.type.name);
+      //console.log(types);
+      return types.includes(typefilter);
+    });
+    console.log(result);
+    setPokemonSearchResult(result);
   };
 
   useEffect(() => {
@@ -97,7 +116,13 @@ const Sidebar = ({ setLoading, getRandom, setGetRandom }) => {
       {types ? (
         <TypesWrapper>
           {types.map((type) => {
-            return <PokemonType size="sidebar" type={type.name} />;
+            return (
+              <PokemonType
+                handleClick={filterPokemonByType}
+                size="sidebar"
+                type={type.name}
+              />
+            );
           })}
         </TypesWrapper>
       ) : (

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
@@ -16,6 +16,10 @@ const NavigationBar = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const pushToHome = () => {
+    history.push("/");
+  };
+
   const pushToLogIn = () => {
     history.push("/signin");
   };
@@ -25,7 +29,7 @@ const NavigationBar = () => {
   };
 
   const pushToProfilePage = () => {
-    history.push("/profile");
+    history.push(`/users/${CurrentUserstate.user.user.username}`);
   };
 
   const logOut = () => {
@@ -38,7 +42,7 @@ const NavigationBar = () => {
   let greeting = greetings[Math.floor(Math.random() * greetings.length)];
 
   //-------console logs
-  console.log("USER STATE", CurrentUserstate);
+  //console.log("USER STATE", CurrentUserstate);
 
   if (CurrentUserstate.user.user.username.length > 0) {
     return (
@@ -48,6 +52,9 @@ const NavigationBar = () => {
             <Greeting>Welcome {CurrentUserstate.user.user.username}</Greeting>
             <Question>{greeting}</Question>
           </div>
+          <ButtonWrapper>
+            <Button handleClick={pushToHome} text="Home" />
+          </ButtonWrapper>
           <ButtonWrapper>
             <Button handleClick={pushToTeamsPage} text="My Pokémon teams" />
           </ButtonWrapper>
@@ -85,7 +92,7 @@ const SecondWrapper = styled.div`
 `;
 
 const ButtonWrapper = styled.div`
-  width: 15%;
+  width: 10%;
   //border: 2px solid black;
   margin-left: auto;
   margin-right: 20px;

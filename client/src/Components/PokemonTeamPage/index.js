@@ -8,6 +8,8 @@ import AddTeamModal from "./AddTeamModal";
 const PokemonTeamPage = () => {
   //State for the current logged in user
   const currentUserstate = useSelector((state) => state.user);
+  //State for newTeam (so we add to dependency array)
+  const [newTeam, setNewTeam] = useState(false);
   //State for all pokemon teams (for the logged in user)
   const [pokemonTeams, setPokemonTeams] = useState();
 
@@ -23,7 +25,7 @@ const PokemonTeamPage = () => {
         setPokemonTeams(
           res.data.map((each) => {
             return {
-              teamId: each._id,
+              id: each._id,
               teamName: each.team.teamName,
               team: each.team.team,
             };
@@ -34,7 +36,7 @@ const PokemonTeamPage = () => {
 
   useEffect(() => {
     getUserTeams();
-  }, [currentUserstate]);
+  }, [currentUserstate, newTeam]);
 
   //-------Console logs
   //console.log("Current user", currentUserstate);
@@ -44,10 +46,14 @@ const PokemonTeamPage = () => {
     return (
       <>
         <Title>My Pokemon teams</Title>
-        <AddTeamModal />
+        <AddTeamModal setNewTeam={setNewTeam} newTeam={newTeam} />
         <Wrapper>
           {pokemonTeams.map((team) => {
-            return <PokemonTeamCard team={team} />;
+            //if a team is empty do not show it.
+            if (team.team.length > 0)
+              return (
+                <PokemonTeamCard key={team.id} team={team} teamOwner={"me"} />
+              );
           })}
         </Wrapper>
       </>

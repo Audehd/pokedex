@@ -24,10 +24,38 @@ const getUserByEmail = async (req, res) => {
     const result = await db.collection("usersInfo").findOne({ email });
 
     if (result) {
-      const { _id, username, email } = result;
+      const { _id, username, email, city, gender, favoritePokemons } = result;
       res.status(201).json({
         status: 201,
-        data: { id: _id, username, email },
+        data: { id: _id, username, email, city, gender, favoritePokemons },
+        message: "user information",
+      });
+    } else {
+      res.status(401).json({ status: 401, message: "user does not exist" });
+    }
+  } catch (err) {
+    res.status(500).send({ status: 500, message: err.message });
+  }
+  client.close();
+};
+
+const getUserByUsername = async (req, res) => {
+  const username = req.params.username;
+
+  const client = await MongoClient(MONGO_URI, options);
+
+  try {
+    await client.connect();
+
+    const db = client.db("users");
+
+    const result = await db.collection("usersInfo").findOne({ username });
+
+    if (result) {
+      const { _id, username, email, city, gender, favoritePokemons } = result;
+      res.status(201).json({
+        status: 201,
+        data: { id: _id, username, email, city, gender, favoritePokemons },
         message: "user information",
       });
     } else {
@@ -49,6 +77,8 @@ const addUser = async (req, res) => {
     const user = {
       username: req.body.username.toLowerCase(),
       email: req.body.email,
+      city: req.body.city,
+      gender: req.body.gender,
       password: hashedPassword,
     };
     const client = await MongoClient(MONGO_URI, options);
@@ -98,8 +128,45 @@ const loginUser = async (req, res) => {
   client.close();
 };
 
+const addPokemonToFavorites = async (req, res) => {
+  const username = req.params.username;
+  const pokedexNumber = req.body.pokedexNumber.toString();
+  //console.log(123, body);
+
+  const query = { username: username };
+
+  const newValues = { $push: { favoritePokemons: pokedexNumber } };
+
+  try {
+    const client = await MongoClient(MONGO_URI, options);
+
+    await client.connect();
+
+    const db = client.db("users");
+
+    const result = await db.collection("usersInfo").updateOne(query, newValues);
+    assert.strictEqual(1, result.matchedCount);
+
+    if (result) {
+      res.status(201).json({
+        status: 201,
+        message: "successfully updated",
+      });
+    } else {
+      res.status(401).json({
+        status: 401,
+        message: "username does not exist",
+      });
+    }
+  } catch (err) {
+    res.status(500).send({ status: 500, message: err.message });
+  }
+};
+
 module.exports = {
   getUserByEmail,
+  getUserByUsername,
   addUser,
   loginUser,
+  addPokemonToFavorites,
 };

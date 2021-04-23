@@ -11,6 +11,7 @@ import {
   editTeamName,
   stopTeam,
 } from "../../reducers/teamsActions";
+
 import { allPokemonList } from "../../Data";
 
 const customStyles = {
@@ -36,7 +37,7 @@ const initialTeamState = {
 // Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement("#root");
 
-const AddTeamModal = () => {
+const AddTeamModal = ({ newTeam, setNewTeam }) => {
   //state for Pokemon natures list
   const [natures, setNatures] = useState();
   //state for the add pokemon to team form
@@ -58,8 +59,6 @@ const AddTeamModal = () => {
 
   //Message box that displays the team name after the user chooses one (for creating a new team)
   const teamNameBox = useRef(null);
-  //team name text field (so we can hide it once the user choose a name)
-  const teamNameTextField = useRef(null);
   //Message box that displays the Pokemons added so far
   const pokemonAddedBox = useRef(null);
 
@@ -75,6 +74,9 @@ const AddTeamModal = () => {
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const openModal = () => {
     setIsOpen(true);
+    //we need to do this to clear the state otherwise after sumbit the pokemon "stay"
+    //everytime we open the modal we want a fresh team state
+    dispatch(stopTeam(teamName));
   };
 
   const afterOpenModal = () => {
@@ -133,6 +135,7 @@ const AddTeamModal = () => {
   const handleSubmitTeam = (ev) => {
     ev.preventDefault();
     setIsOpen(false);
+    setNewTeam(!newTeam);
     const body = { user: currentUserstate.user, team: currentTeamstate };
     console.log(body);
     fetch("/teams/addteam", {
@@ -155,10 +158,6 @@ const AddTeamModal = () => {
   };
 
   //-------Console logs
-  //console.log("NATURES LIST", natures);
-  //console.log("Current user", currentUserstate);
-  //console.log("TEAMS (reducer)", teams);
-  //console.log("current team state", currentTeamstate);
 
   useEffect(() => {
     getNaturesList();
@@ -191,7 +190,6 @@ const AddTeamModal = () => {
         ></pokemonAddedBox>
         <form>
           <Input
-            ref={teamNameTextField}
             required="required"
             name="newTeamName"
             placeholder="Team Name"

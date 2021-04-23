@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const PokemonType = ({ type, size }) => {
+const PokemonType = ({ type, size, handleClick }) => {
   //This functions takes the type as parameter and determines the background and text colors
   const setColors = (type) => {
     if (type) {
@@ -116,7 +116,14 @@ const PokemonType = ({ type, size }) => {
   if (size === "large") {
     return <LargeType color={setColors(type)}>{type}</LargeType>;
   } else if (size === "sidebar") {
-    return <SidebarType color={setColors(type)}>{type}</SidebarType>;
+    return (
+      <SidebarType
+        onClick={(ev) => handleClick(ev, type)}
+        color={setColors(type)}
+      >
+        {type}
+      </SidebarType>
+    );
   } else {
     return <Type color={setColors(type)}>{type}</Type>;
   }
@@ -124,7 +131,7 @@ const PokemonType = ({ type, size }) => {
 
 export default PokemonType;
 
-const Type = styled.div`
+const Type = styled.button`
   display: inline-block;
   background: ${({ color }) => color.backgroundColor};
   color: ${({ color }) => color.textColor};

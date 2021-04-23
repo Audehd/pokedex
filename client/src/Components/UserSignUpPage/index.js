@@ -8,6 +8,8 @@ import Button from "../Button";
 const initialState = {
   username: "",
   email: "",
+  city: "",
+  gender: "",
   password: "",
   confirmPassword: "",
 };
@@ -129,6 +131,22 @@ const UserSignUpForm = () => {
           type="email"
           handleChange={handleChange}
           value={formData.email}
+        />
+        <Input
+          required="required"
+          name="city"
+          placeholder="city"
+          type="text"
+          handleChange={handleChange}
+          value={formData.city}
+        />
+        <Input
+          required="required"
+          name="gender"
+          placeholder="gender"
+          type="text"
+          handleChange={handleChange}
+          value={formData.gender}
         />
         <Input
           refProp={password}

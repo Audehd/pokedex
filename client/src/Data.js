@@ -9,6 +9,15 @@ export const greetings = [
   "Hello, sunshine!",
   "Howdy-doody!",
   "Konnichiwa!",
+  "Ahoy!",
+  "What's the craic?",
+  "Namaste",
+  "Live long and prosper",
+  "May the force be with you",
+  "Bless your heart",
+  "You look cute as a button today!",
+  "Have a blessed day",
+  "Holler if you need me",
 ];
 
 export const regions = {

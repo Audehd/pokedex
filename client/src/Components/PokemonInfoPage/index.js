@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 import PokemonType from "../PokemonCard/PokemonType";
 import EvolutionCard from "./EvolutionCard";
+import Button from "../Button";
 
 import { setBackgroundColor } from "../../UtilityFunctions";
 
@@ -14,9 +16,13 @@ const PokemonInfoPage = () => {
   const [pokemonInfo, setPokemonInfo] = useState();
   //state for pokemon weaknesses
   const [pokemonWeakness, setPokemonWeakness] = useState();
+  //State for the current logged in user
+  const CurrentUserstate = useSelector((state) => state);
 
   //Pokemon pokedexNumber from params
   let { pokedexNumber } = useParams();
+
+  const history = useHistory();
 
   //function to get information about the pokemon, two different endpoints
   const fetchPokemonInfo = () => {
@@ -71,6 +77,43 @@ const PokemonInfoPage = () => {
     }
   };
 
+  const handlePreviousPokemon = (ev) => {
+    ev.preventDefault();
+    const previousPokemon = Number(pokemon.id) - 1;
+    history.push(`/pokemon/${previousPokemon}`);
+  };
+
+  const handleNextPokemon = (ev) => {
+    ev.preventDefault();
+    const nextPokemon = Number(pokemon.id) + 1;
+    history.push(`/pokemon/${nextPokemon}`);
+  };
+
+  const addToFavorites = (ev) => {
+    ev.preventDefault();
+    const body = { pokedexNumber: pokemon.id };
+    const username = CurrentUserstate.user.user.username;
+    fetch(`/users/favoritepokemons/${username}`, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        const { status, message } = res;
+        if (status === 201) {
+          console.log("CONFIRMED", message);
+        } else if (status === 500) {
+          console.log("ERROR", message);
+        }
+      });
+  };
+
+  const removeFromFavorites = (ev) => {};
+
   useEffect(() => {
     fetchPokemonInfo();
   }, [pokedexNumber]);
@@ -79,54 +122,87 @@ const PokemonInfoPage = () => {
     getPokemonTypesInfo();
   }, [pokemon, pokedexNumber]);
 
+  //-------Console logs----------
+  //console.log("CURRENT USER STATE", CurrentUserstate);
+
   if (pokemon && pokemonInfo && pokemonWeakness) {
     return (
-      <Wrapper bgColor={setBackgroundColor(pokemonInfo.color.name)}>
-        <Title>
-          {pokemon.name} #{pokemon.id}
-        </Title>
-        <SecondWrapper>
-          <ImageWrapper bgColor={setBackgroundColor(pokemonInfo.color.name)}>
-            <Image
-              src={pokemon.sprites.other["official-artwork"].front_default}
-              alt={`${pokemon.name}`}
+      <>
+        <ButtonsWrapper>
+          <PreviousWrapper>
+            <Button
+              color="red"
+              text="< Previous Pokemon"
+              handleClick={handlePreviousPokemon}
             />
-          </ImageWrapper>
-          <div>
-            <FlavorText>
-              {pokemonInfo.flavor_text_entries[6].flavor_text}
-            </FlavorText>
-            <InfoWrapper bgColor={setBackgroundColor(pokemonInfo.color.name)}>
-              <StatKey>
-                <span>Height:</span>{" "}
-                <StatValue>{pokemon.height * 10} cm</StatValue>
-              </StatKey>
-              <StatKey>
-                <span>Weight:</span>{" "}
-                <StatValue>{pokemon.weight / 10} kg</StatValue>
-              </StatKey>
-              <StatKey>
-                Abilities:{" "}
-                {pokemon.abilities.map((ability) => {
-                  return <StatValue>{ability.ability.name}</StatValue>;
-                })}
-              </StatKey>
-            </InfoWrapper>
-            <Types>Types:</Types>
-            {pokemon.types.map((type) => {
-              return <PokemonType type={type.type.name} size="large" />;
-            })}
-            <Types>Weaknesses:</Types>
-            {pokemonWeakness.map((type) => {
-              return <PokemonType type={type} size="large" />;
-            })}
-          </div>
-        </SecondWrapper>
-        <EvolutionCard
-          evolutionChainLink={pokemonInfo.evolution_chain.url}
-          color={pokemonInfo.color.name}
-        />
-      </Wrapper>
+          </PreviousWrapper>
+          <NextWrapper>
+            <Button
+              color="red"
+              text="Next Pokemon >"
+              handleClick={handleNextPokemon}
+            />
+          </NextWrapper>
+        </ButtonsWrapper>
+        <Wrapper bgColor={setBackgroundColor(pokemonInfo.color.name)}>
+          {/* {CurrentUserstate.favoritePokemons.includes(pokemon.id) ? (
+            <HeartWrapper>
+              <Button
+                handleClick={removeFromFavorites}
+                text="Remove from favorites ❤"
+              />
+            </HeartWrapper>
+          ) : ( */}
+          <HeartWrapper>
+            <Button handleClick={addToFavorites} text="Add to favorites ❤" />
+          </HeartWrapper>
+          {/* )} */}
+          <Title>
+            {pokemon.name} #{pokemon.id}
+          </Title>
+          <SecondWrapper>
+            <ImageWrapper bgColor={setBackgroundColor(pokemonInfo.color.name)}>
+              <Image
+                src={pokemon.sprites.other["official-artwork"].front_default}
+                alt={`${pokemon.name}`}
+              />
+            </ImageWrapper>
+            <div>
+              <FlavorText>
+                {pokemonInfo.flavor_text_entries[6].flavor_text}
+              </FlavorText>
+              <InfoWrapper bgColor={setBackgroundColor(pokemonInfo.color.name)}>
+                <StatKey>
+                  <span>Height:</span>{" "}
+                  <StatValue>{pokemon.height * 10} cm</StatValue>
+                </StatKey>
+                <StatKey>
+                  <span>Weight:</span>{" "}
+                  <StatValue>{pokemon.weight / 10} kg</StatValue>
+                </StatKey>
+                <StatKey>
+                  Abilities:{" "}
+                  {pokemon.abilities.map((ability) => {
+                    return <StatValue>{ability.ability.name}</StatValue>;
+                  })}
+                </StatKey>
+              </InfoWrapper>
+              <Types>Types:</Types>
+              {pokemon.types.map((type) => {
+                return <PokemonType type={type.type.name} size="large" />;
+              })}
+              <Types>Weaknesses:</Types>
+              {pokemonWeakness.map((type) => {
+                return <PokemonType type={type} size="large" />;
+              })}
+            </div>
+          </SecondWrapper>
+          <EvolutionCard
+            evolutionChainLink={pokemonInfo.evolution_chain.url}
+            color={pokemonInfo.color.name}
+          />
+        </Wrapper>
+      </>
     );
   } else {
     return <div>... loading</div>;
@@ -136,6 +212,7 @@ const PokemonInfoPage = () => {
 export default PokemonInfoPage;
 
 const Wrapper = styled.div`
+  position: relative;
   color: black;
   padding: 16px 16px 40px 16px;
   //Set the background color using props, from the setBackgroundColor function
@@ -148,12 +225,32 @@ const Wrapper = styled.div`
   text-align: center;
   width: 70%;
   margin: auto;
-  margin-top: 100px;
+  margin-top: 60px;
 
   @media (max-width: 1000px) {
     display: flex;
     flex-direction: column;
   }
+`;
+
+const ButtonsWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 35px;
+`;
+
+const PreviousWrapper = styled.div`
+  width: 10%;
+`;
+
+const NextWrapper = styled.div`
+  width: 10%;
+`;
+const HeartWrapper = styled.div`
+  position: absolute;
+  top: 11px;
+  right: 11px;
 `;
 
 const ImageWrapper = styled.div`
@@ -237,14 +334,4 @@ const Types = styled.div`
   text-align: left;
   font-size: 26px;
   margin: 0 0 10px 45px;
-`;
-
-const EvolutionWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  //border: 5px solid blue;
-
-  @media (max-width: 1000px) {
-    flex-direction: column;
-  }
 `;

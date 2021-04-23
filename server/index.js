@@ -5,11 +5,19 @@ const app = express();
 
 const {
   getUserByEmail,
+  getUserByUsername,
   addUser,
   loginUser,
+  addPokemonToFavorites,
 } = require("./handlers/Userhandlers");
 
-const { getTeamsByUsername, addTeam } = require("./handlers/TeamsHandlers");
+const {
+  getTeamsByUsername,
+  addTeam,
+  editTeam,
+  removePokemonFromTeam,
+  deleteTeam,
+} = require("./handlers/TeamsHandlers");
 
 const {
   getPokemonByName,
@@ -40,9 +48,14 @@ app.use("/", express.static(__dirname + "/"));
 
 app.get("/users/user/:id", getUserByEmail);
 
+app.get("/users/username/:username", getUserByUsername);
+
 app.post("/users", addUser);
 
 app.post("/users/login", loginUser);
+
+//add a pokemon to user's favorite pokemon
+app.patch("/users/favoritepokemons/:username", addPokemonToFavorites);
 
 // Teams Endpoints ________________________
 
@@ -51,6 +64,15 @@ app.get("/teams/user/:username", getTeamsByUsername);
 //add a new team, this endpoint needs the username and team info
 //and adds the team to a collection specific to the user
 app.post("/teams/addteam", addTeam);
+
+//edit a pokemon team DOES NOT WORK YET
+app.put("/teams/editteam/:teamid", editTeam);
+
+//remove a pokemon from the team
+app.patch("/teams/removePokemon/:teamid", removePokemonFromTeam);
+
+//delete a team
+app.delete("/teams/deleteteam/:teamid", deleteTeam);
 
 // Pokemon Endpoints ________________________
 
