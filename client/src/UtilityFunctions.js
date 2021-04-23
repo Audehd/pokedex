@@ -62,7 +62,7 @@ export const setBackgroundColor = (color) => {
 };
 
 export const getRandomPokemons = (callback, nextcallback) => {
-  const randomPokemonIds = Array.from({ length: 30 }, () =>
+  const randomPokemonIds = Array.from({ length: 40 }, () =>
     Math.ceil(Math.random() * 893)
   );
   callback(randomPokemonIds, nextcallback);

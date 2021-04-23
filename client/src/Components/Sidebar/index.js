@@ -22,6 +22,25 @@ const Sidebar = ({
 
   const history = useHistory();
 
+  //Fetch several Pokemons by name, the endpoint accepts an array of pokemon names or Ids
+  const getPokemonsByName = (pokemonList) => {
+    fetch("/pokemons/pokemon/name", {
+      method: "POST",
+      body: JSON.stringify(pokemonList),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setPokemonSearchResult(res.data);
+      })
+      .catch((error) => {
+        console.log("Error", error);
+      });
+  };
+
   //function to get all pokemon types
   const getAllTypes = () => {
     fetch("/types")
@@ -57,8 +76,18 @@ const Sidebar = ({
   const handleRegionSelect = (ev) => {
     const selected = ev.target.value;
     const regionalPokedex = regions[selected];
-    console.log("RANGE", regionalPokedex);
-    //getPokemonsByName(regionalPokedex);
+    const range = (start, end) => {
+      return Array(end - start + 1)
+        .fill()
+        .map((_, idx) => start + idx);
+    };
+    const pokedex = range(regionalPokedex.start, regionalPokedex.end);
+    const pokemonList = pokedex.map(String);
+    //getting test list for now with only 3o pokemons
+    //becuause the POkemonAPI will not return a full 150+ list of pokemons
+    const testList = pokemonList.slice(0, 40);
+    console.log(testList);
+    getPokemonsByName(testList);
   };
 
   const filterPokemonByType = (ev, typefilter) => {
