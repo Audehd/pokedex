@@ -25,25 +25,6 @@ const App = () => {
 
   const dispatch = useDispatch();
 
-  //Fetch several Pokemons by name, the endpoint accepts an array of pokemon names or Ids
-  // const getPokemonsByName = (pokemonList) => {
-  //   fetch("/pokemons/pokemon/name", {
-  //     method: "POST",
-  //     body: JSON.stringify(pokemonList),
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((res) => {
-  //       setPokemonSearchResult(res.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log("Error", error);
-  //     });
-  // };
-
   useEffect(() => {
     const email = localStorage.getItem("userEmail");
 

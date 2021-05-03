@@ -158,6 +158,36 @@ const getNaturesList = (req, res) => {
   });
 };
 
+const getBerriesList = (req, res) => {
+  P.getBerriesList().then((response) => {
+    res
+      .status(201)
+      .json({ status: 201, data: response, message: "Berries list" });
+  });
+};
+
+const getHeldItemList = (req, res) => {
+  P.getItemCategoryByName("held-items")
+    .then((response) => {
+      res.status(201).json({
+        status: 201,
+        data: response,
+        message: "Held items list",
+      });
+    })
+    .catch((error) => {
+      res.status(500).send({ status: 500, message: error.message });
+    });
+};
+
+const getItemCategoriesList = (req, res) => {
+  P.getItemCategoriesList().then((response) => {
+    res
+      .status(201)
+      .json({ status: 201, data: response, message: "Natures list" });
+  });
+};
+
 module.exports = {
   getPokemonByName,
   getPokemonByPokedexNumber,
@@ -172,4 +202,7 @@ module.exports = {
   getPokedexByName,
   getPokedexList,
   getNaturesList,
+  getBerriesList,
+  getItemCategoriesList,
+  getHeldItemList,
 };

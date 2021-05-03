@@ -29,7 +29,7 @@ const teamsReducer = (state = initialState, action) => {
             pokedexNumber: action.pokedexNumber,
             nickname: action.pokemon.nickname,
             nature: action.nature,
-            helditem: action.pokemon.helditem,
+            helditem: action.heldItem,
           },
         ],
       };

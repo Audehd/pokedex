@@ -59,6 +59,10 @@ const Sidebar = ({
   //(works with a pokedex number or the pokemon name)
   const handleSubmit = (ev) => {
     ev.preventDefault();
+    //clear search input
+    Array.from(document.querySelectorAll("input")).forEach(
+      (input) => (input.value = "")
+    );
     console.log("search keyword", keyword);
     history.push(`/pokemon/${keyword}`);
   };
@@ -85,7 +89,7 @@ const Sidebar = ({
     const pokemonList = pokedex.map(String);
     //getting test list for now with only 3o pokemons
     //becuause the POkemonAPI will not return a full 150+ list of pokemons
-    const testList = pokemonList.slice(0, 40);
+    const testList = pokemonList.slice(0, 41);
     console.log(testList);
     getPokemonsByName(testList);
   };
@@ -93,9 +97,7 @@ const Sidebar = ({
   const filterPokemonByType = (ev, typefilter) => {
     ev.preventDefault();
     const result = pokemonSearchResult.filter((pokemon) => {
-      //console.log(pokemon);
       let types = pokemon.types.map((type) => type.type.name);
-      //console.log(types);
       return types.includes(typefilter);
     });
     console.log(result);

@@ -52,7 +52,13 @@ const PokemonTeamPage = () => {
             //if a team is empty do not show it.
             if (team.team.length > 0)
               return (
-                <PokemonTeamCard key={team.id} team={team} teamOwner={"me"} />
+                <PokemonTeamCard
+                  setNewTeam={setNewTeam}
+                  newTeam={newTeam}
+                  key={team.id}
+                  team={team}
+                  teamOwner={"me"}
+                />
               );
           })}
         </Wrapper>

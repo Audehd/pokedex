@@ -33,6 +33,9 @@ const {
   getPokedexByName,
   getPokedexList,
   getNaturesList,
+  getBerriesList,
+  getItemCategoriesList,
+  getHeldItemList,
 } = require("./handlers/Pokemonhandlers");
 
 const PORT = process.env.PORT || 8000;
@@ -116,6 +119,15 @@ app.get("/pokedex/:name", getPokedexByName);
 
 //get natures list
 app.get("/natures", getNaturesList);
+
+//get a list of berries
+app.get("/berries", getBerriesList);
+
+//get a list of item categories
+app.get("/itemcategories", getItemCategoriesList);
+
+//get a list of held items (items a pokemon can hold)
+app.get("/helditems", getHeldItemList);
 
 //_____________________________________________________________________
 

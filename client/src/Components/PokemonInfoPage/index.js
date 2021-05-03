@@ -18,6 +18,8 @@ const PokemonInfoPage = () => {
   const [pokemonWeakness, setPokemonWeakness] = useState();
   //State for the current logged in user
   const CurrentUserstate = useSelector((state) => state);
+  //state for the favorites button
+  const [buttonText, setButtonText] = useState("Add to favorites ❤");
 
   //Pokemon pokedexNumber from params
   let { pokedexNumber } = useParams();
@@ -91,6 +93,8 @@ const PokemonInfoPage = () => {
 
   const addToFavorites = (ev) => {
     ev.preventDefault();
+    //change the button text
+    setButtonText("Added ❤");
     const body = { pokedexNumber: pokemon.id };
     const username = CurrentUserstate.user.user.username;
     fetch(`/users/favoritepokemons/${username}`, {
@@ -154,7 +158,7 @@ const PokemonInfoPage = () => {
             </HeartWrapper>
           ) : ( */}
           <HeartWrapper>
-            <Button handleClick={addToFavorites} text="Add to favorites ❤" />
+            <Button handleClick={addToFavorites} text={buttonText} />
           </HeartWrapper>
           {/* )} */}
           <Title>

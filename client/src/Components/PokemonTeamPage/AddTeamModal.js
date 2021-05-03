@@ -34,18 +34,26 @@ const initialTeamState = {
   helditem: "",
 };
 
-// Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement("#root");
 
 const AddTeamModal = ({ newTeam, setNewTeam }) => {
+  const [modalIsOpen, setIsOpen] = React.useState(false);
   //state for Pokemon natures list
   const [natures, setNatures] = useState();
+  //state for Pokemon held items list
+  const [heldItems, setHeldItems] = useState();
+  //state for berries list
+  const [berries, setBerries] = useState();
+  //state for all items
+  //const [allHeldItems, setAllHeldItems] = useState();
   //state for the add pokemon to team form
   const [teamData, setTeamData] = useState(initialTeamState);
   //state for team name
   const [teamName, setTeamName] = useState();
   //state for pokemon nature (user selects from dropdown menu)
   const [nature, setNature] = useState();
+  //state for pokemon held item (user selects from dropdown menu)
+  const [heldItem, setHeldItem] = useState();
   //state for pokemon pokedexNumber (user selects from dropdown menu)
   const [pokedexNumber, setPokedexNumber] = useState();
   //States for the current logged in user and their teams
@@ -71,7 +79,25 @@ const AddTeamModal = ({ newTeam, setNewTeam }) => {
       });
   };
 
-  const [modalIsOpen, setIsOpen] = React.useState(false);
+  //function to get held items list
+  const getHeldItems = () => {
+    fetch("/helditems")
+      .then((res) => res.json())
+      .then((res) => {
+        const items = res.data.items.map((item) => item.name);
+        setHeldItems(items);
+      });
+    fetch("/berries")
+      .then((res) => res.json())
+      .then((res) => {
+        const berries = res.data.results.map((berry) => berry.name + " berry");
+        setBerries(berries);
+        //merge the heldItems and berries arrays together (so we can loop over only one array)
+        //const all = heldItems.concat(berries);
+        //setAllHeldItems(all);
+      });
+  };
+
   const openModal = () => {
     setIsOpen(true);
     //we need to do this to clear the state otherwise after sumbit the pokemon "stay"
@@ -100,6 +126,12 @@ const AddTeamModal = ({ newTeam, setNewTeam }) => {
     setNature(value);
   };
 
+  //function to set the held item of the pokemon (from a dropdown menu)
+  const handleHeldItemSelect = (value) => {
+    setHeldItem(value);
+  };
+
+  //function to select a pokemon from dropdown menu
   const handlePokemonSelect = (value) => {
     setPokedexNumber(value);
   };
@@ -114,8 +146,12 @@ const AddTeamModal = ({ newTeam, setNewTeam }) => {
   //send to dispatch the team name and pokemon info
   const handleSubmitPokemon = (ev) => {
     ev.preventDefault();
+    //clear text fields
+    Array.from(document.querySelectorAll("input")).forEach(
+      (input) => (input.value = "")
+    );
     dispatch(editTeamName(teamName));
-    dispatch(addPokemonToTeam(teamData, nature, pokedexNumber));
+    dispatch(addPokemonToTeam(teamData, nature, heldItem, pokedexNumber));
     //------------------------------------------------
     //disable and hide the team name field
     //teamNameTextField.current.style.display = "none";
@@ -161,6 +197,7 @@ const AddTeamModal = ({ newTeam, setNewTeam }) => {
 
   useEffect(() => {
     getNaturesList();
+    getHeldItems();
   }, [modalIsOpen]);
 
   return (
@@ -192,7 +229,7 @@ const AddTeamModal = ({ newTeam, setNewTeam }) => {
           <Input
             required="required"
             name="newTeamName"
-            placeholder="Team Name"
+            placeholder="Choose a name for you pokémon team"
             type="text"
             handleChange={handleTeamName}
           />
@@ -218,7 +255,7 @@ const AddTeamModal = ({ newTeam, setNewTeam }) => {
           <Input
             required="required"
             name="nickname"
-            placeholder="Nickname"
+            placeholder="Choose a nickname for your Pokémon"
             type="text"
             handleChange={handleChange}
             value={teamData.nickname}
@@ -238,14 +275,29 @@ const AddTeamModal = ({ newTeam, setNewTeam }) => {
           ) : (
             <p>...Loading</p>
           )}
-          <Input
+          <Label>Held Item</Label>
+          {heldItems && berries ? (
+            <Select onChange={(ev) => handleHeldItemSelect(ev.target.value)}>
+              <option key={0}>Choose an Item for your Pokémon to hold</option>
+              {heldItems.concat(berries).map((item) => {
+                return (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                );
+              })}
+            </Select>
+          ) : (
+            <p>...Loading</p>
+          )}
+          {/* <Input
             required="required"
             name="helditem"
             placeholder="Held Item"
             type="text"
             handleChange={handleChange}
             value={teamData.helditem}
-          />
+          /> */}
           <ButtonWrapper>
             <Button
               disabled={currentTeamstate.team.length === 6}

@@ -6,9 +6,7 @@ import { FiX } from "react-icons/fi";
 import LittlePokemonCard from "./LittlePokemonCard";
 import Button from "../Button";
 
-import { removePokemonFromTeam } from "../../reducers/teamsActions";
-
-const PokemonTeamCard = ({ team, teamOwner }) => {
+const PokemonTeamCard = ({ team, teamOwner, newTeam, setNewTeam }) => {
   //State for Pokemon teams info
   const [teamInfo, setTeamInfo] = useState([]);
   //State for the little POKEMON X icon, to show only if user click edit team button
@@ -45,7 +43,7 @@ const PokemonTeamCard = ({ team, teamOwner }) => {
 
   useEffect(() => {
     getPokemonsByName(teamPokedexNumbers, setTeamInfo);
-  }, []);
+  }, [newTeam]);
 
   //merge the teamInfo and team arrays together (so we can loop over only one array)
   const updatedTeam = teamInfo.map((pokemon, i) =>
@@ -63,6 +61,7 @@ const PokemonTeamCard = ({ team, teamOwner }) => {
   //function to remove one pokemon from the team (when user clicks X button)
   const handleRemovePokemon = (ev, teamId, pokemon) => {
     ev.preventDefault();
+    setNewTeam(!newTeam);
     const body = {
       pokemonNumber: pokemon,
     };
@@ -88,6 +87,7 @@ const PokemonTeamCard = ({ team, teamOwner }) => {
   //function to delete an entire team when user clicks X button
   const handleDeleteTeam = (ev, teamId) => {
     ev.preventDefault();
+    setNewTeam(!newTeam);
     const body = {
       teamId: teamId,
     };
