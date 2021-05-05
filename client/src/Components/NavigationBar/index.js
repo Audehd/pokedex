@@ -32,6 +32,10 @@ const NavigationBar = () => {
     history.push(`/users/${CurrentUserstate.user.user.username}`);
   };
 
+  const pushToSignUp = () => {
+    history.push("/signup");
+  };
+
   const logOut = () => {
     dispatch(logout(CurrentUserstate.user));
     localStorage.clear();
@@ -70,9 +74,24 @@ const NavigationBar = () => {
   } else {
     return (
       <Wrapper>
-        <ButtonWrapper>
-          <Button handleClick={pushToLogIn} text="log in" />
-        </ButtonWrapper>
+        <SecondWrapper>
+          <div>
+            <Greeting>Welcome</Greeting>
+            <Question>
+              You can search fo Pokémons or you can log in or create an account
+              to use our team builder!
+            </Question>
+          </div>
+          <ButtonWrapper>
+            <Button handleClick={pushToHome} text="Home" />
+          </ButtonWrapper>
+          <ButtonWrapper>
+            <Button handleClick={pushToLogIn} text="log in" />
+          </ButtonWrapper>
+          <ButtonWrapper>
+            <Button handleClick={pushToSignUp} text="Sign up" />
+          </ButtonWrapper>
+        </SecondWrapper>
       </Wrapper>
     );
   }
@@ -93,7 +112,6 @@ const SecondWrapper = styled.div`
 
 const ButtonWrapper = styled.div`
   width: 10%;
-  //border: 2px solid black;
   margin-left: auto;
   margin-right: 20px;
   padding-top: 38px;

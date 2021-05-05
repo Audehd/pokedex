@@ -157,9 +157,11 @@ const PokemonInfoPage = () => {
               />
             </HeartWrapper>
           ) : ( */}
-          <HeartWrapper>
-            <Button handleClick={addToFavorites} text={buttonText} />
-          </HeartWrapper>
+          {CurrentUserstate.user.user.username.length > 0 && (
+            <HeartWrapper>
+              <Button handleClick={addToFavorites} text={buttonText} />
+            </HeartWrapper>
+          )}
           {/* )} */}
           <Title>
             {pokemon.name} #{pokemon.id}

@@ -124,8 +124,9 @@ const Sidebar = ({
       <ButtonWrapper>
         <Button handleClick={handleSubmit} text="Search" />
       </ButtonWrapper>
+      <Filter>Search some random Pokémons</Filter>
       <ButtonWrapper>
-        <Button handleClick={handleRandom} text="Random Pokémons" />
+        <Button handleClick={handleRandom} text="Surprise me!" />
       </ButtonWrapper>
 
       <Form>

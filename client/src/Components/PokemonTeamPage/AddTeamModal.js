@@ -85,12 +85,14 @@ const AddTeamModal = ({ newTeam, setNewTeam }) => {
       .then((res) => res.json())
       .then((res) => {
         const items = res.data.items.map((item) => item.name);
+        const alphabeticalitems = items.sort();
         setHeldItems(items);
       });
     fetch("/berries")
       .then((res) => res.json())
       .then((res) => {
         const berries = res.data.results.map((berry) => berry.name + " berry");
+        const alphabeticalberries = berries.sort();
         setBerries(berries);
         //merge the heldItems and berries arrays together (so we can loop over only one array)
         //const all = heldItems.concat(berries);
@@ -213,7 +215,7 @@ const AddTeamModal = ({ newTeam, setNewTeam }) => {
         contentLabel="Example Modal"
       >
         <ButtonWrapper>
-          <Button handleClick={closeModal} text="Close"></Button>
+          <Button handleClick={closeModal} text="Cancel"></Button>
         </ButtonWrapper>
         <TeamName
           ref={teamNameBox}
@@ -237,17 +239,19 @@ const AddTeamModal = ({ newTeam, setNewTeam }) => {
           {allPokemonList ? (
             <Select onChange={(ev) => handlePokemonSelect(ev.target.value)}>
               <option key={0}>Select a Pokemon</option>
-              {allPokemonList.map((pokemon) => {
-                return (
-                  <option
-                    key={pokemon.pokedexNumber}
-                    value={pokemon.pokedexNumber}
-                    name={pokemon.name}
-                  >
-                    {pokemon.name}
-                  </option>
-                );
-              })}
+              {allPokemonList
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map((pokemon) => {
+                  return (
+                    <option
+                      key={pokemon.pokedexNumber}
+                      value={pokemon.pokedexNumber}
+                      name={pokemon.name}
+                    >
+                      {pokemon.name}
+                    </option>
+                  );
+                })}
             </Select>
           ) : (
             <p>...Loading</p>

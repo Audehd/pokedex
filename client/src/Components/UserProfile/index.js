@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import styled from "styled-components";
 
 import PokemonTeamCard from "../PokemonTeamCard";
@@ -91,24 +91,31 @@ const UserProfile = () => {
 
             <FavePokemonWrapper>
               <FaveTitle>Favorite Pokemons</FaveTitle>
-              {favoritePokemons.map((pokemon) => {
-                return (
-                  <>
-                    <FavePokemonImg
-                      src={pokemon.sprites.front_default}
-                      alt={`${pokemon.species.name}`}
-                    />
-                  </>
-                );
-              })}
+              {favoritePokemons &&
+                favoritePokemons.map((pokemon) => {
+                  return (
+                    <FaveWrapper to={`/pokemon/${pokemon.id}`}>
+                      <FavePokemonImg
+                        src={pokemon.sprites.front_default}
+                        alt={`${pokemon.species.name}`}
+                      />
+                    </FaveWrapper>
+                  );
+                })}
             </FavePokemonWrapper>
           </InfoWrapper>
         </SecondWrapper>
+        <Title>{username}'s teams</Title>
         <TeamsWrapper>
           {pokemonTeams.map((team) => {
-            return (
-              <PokemonTeamCard key={team.id} team={team} teamOwner={username} />
-            );
+            if (team.team.length > 0)
+              return (
+                <PokemonTeamCard
+                  key={team.id}
+                  team={team}
+                  teamOwner={username}
+                />
+              );
           })}
         </TeamsWrapper>
       </Wrapper>
@@ -223,5 +230,7 @@ const FaveTitle = styled.p`
   color: white;
   margin: 0 0 15px 0;
 `;
+
+const FaveWrapper = styled(Link)``;
 
 const FavePokemonImg = styled.img``;
