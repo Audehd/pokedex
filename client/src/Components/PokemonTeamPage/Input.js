@@ -52,6 +52,10 @@ const Wrapper = styled.div`
       color: #999;
     }
   }
+
+  /* input:focus:not(:focus-visible) {
+    outline: none;
+  } */
 `;
 
 export default Input;
